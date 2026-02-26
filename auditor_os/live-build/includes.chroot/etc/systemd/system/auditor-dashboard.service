@@ -1,0 +1,11 @@
+[Unit]
+Description=AuditorOS Scan Library Dashboard
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/auditor-dashboard.py --reports /var/lib/auditor/reports --db /var/lib/auditor/auditor.db --port 8088
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
