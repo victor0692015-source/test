@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASE_DIR="/var/lib/auditor"
+REPORT_DIR="$BASE_DIR/reports"
+DB_PATH="$BASE_DIR/auditor.db"
+mkdir -p "$REPORT_DIR"
+
+usage() {
+  cat <<EOF
+auditorctl - AuditorOS command wrapper
+
+Commands:
+  scan <cidr> [extra args]    Run network audit scan and register in SQLite
+  report-list                 List generated reports
+  scan-library                List scan library from SQLite
+  dashboard                   Start local dashboard on :8088
+  db-init                     Initialize SQLite DB
+
+Examples:
+  auditorctl scan 192.168.1.0/24 --endpoint-mode --endpoint-user audit
+  auditorctl scan-library
+  auditorctl dashboard
+EOF
+}
+
+ensure_db() {
+  /usr/local/bin/auditor-db.py --db "$DB_PATH" init >/dev/null
+}
+
+cmd="${1:-}"
+case "$cmd" in
+  scan)
+    shift
+    if [[ $# -lt 1 ]]; then
+      echo "[!] CIDR is required"
+      usage
+      exit 1
+    fi
+    ensure_db
+    ts="$(date +%Y%m%d_%H%M%S)"
+    json_out="$REPORT_DIR/audit_${ts}.json"
+    html_out="$REPORT_DIR/audit_${ts}.html"
+    /usr/local/bin/audit_tool.py "$1" --out "$json_out" --human-out "$html_out" "${@:2}"
+    /usr/local/bin/auditor-db.py --db "$DB_PATH" add --json "$json_out" --html "$html_out" --notes "scanner-run"
+    echo "[+] JSON: $json_out"
+    echo "[+] HTML: $html_out"
+    ;;
+  report-list)
+    ls -lah "$REPORT_DIR" || true
+    ;;
+  scan-library)
+    ensure_db
+    sqlite3 "$DB_PATH" "SELECT id,created_at,cidr,hosts_total,findings_total,max_risk,endpoint_mode FROM scans ORDER BY id DESC;"
+    ;;
+  dashboard)
+    ensure_db
+    exec /usr/local/bin/auditor-dashboard.py --reports "$REPORT_DIR" --db "$DB_PATH" --port 8088
+    ;;
+  db-init)
+    /usr/local/bin/auditor-db.py --db "$DB_PATH" init
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
