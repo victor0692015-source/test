@@ -1,0 +1,32 @@
+# Core
+python3
+python3-pip
+python3-venv
+curl
+wget
+git
+jq
+sqlite3
+
+# Discovery / network
+nmap
+masscan
+netdiscover
+arp-scan
+
+# Vulnerability / web checks (defensive)
+nikto
+wapiti
+lynis
+
+# Compliance / crypto / endpoint helpers
+openscap-scanner
+openscap-utils
+openssl
+
+# Remote access for credentialed checks
+openssh-client
+winrm-cli
+
+# Reporting
+pandoc
