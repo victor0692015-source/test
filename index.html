@@ -1,0 +1,3489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comoda.md Presentation</title>
+  <link href="assets/vendor/css/tailwind.min.css" rel="stylesheet" />
+  <link href="assets/vendor/fonts/fonts.css" rel="stylesheet" />
+  <link href="assets/vendor/css/fontawesome.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --slide-width: 1280px;
+      --brand-dark: #1a2b4a;
+      --brand-accent: #ff6b35;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #0f172a;
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+
+    .presentation {
+      width: min(100%, var(--slide-width));
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111827;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .clip-shape {
+      clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .font-opensans {
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #d1d5db;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .btn {
+      border: 1px solid #374151;
+      background: #111827;
+      color: #f3f4f6;
+      border-radius: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      border-color: var(--brand-accent);
+      color: #fff;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #4b5563;
+      border: 0;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .dot.active {
+      background: var(--brand-accent);
+    }
+
+    /* Slide 2 specific */
+    .s2-layout {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      background: #f8f9fa;
+      color: #111827;
+    }
+
+    .s2-left {
+      width: 40%;
+      background: var(--brand-dark);
+      color: #fff;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .s2-right {
+      width: 60%;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .s2-stat {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid var(--brand-accent);
+      padding: 16px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(5px);
+    }
+
+    .s2-bullet {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      background: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .s2-icon {
+      min-width: 46px;
+      height: 46px;
+      background-color: #eef2ff;
+      color: var(--brand-dark);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-right: 14px;
+    }
+
+    .s2-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#ffffff 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.05;
+    }
+
+
+    /* Slide 3 specific */
+    .s3-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-color: var(--brand-dark);
+      overflow: hidden;
+    }
+
+    .s3-bg-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .s3-glass-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+
+    /* Slide 4 specific */
+    .s4-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #f8f9fa;
+      overflow: hidden;
+      padding: 32px 48px;
+      color: #111827;
+    }
+
+    .s4-service-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      border-top: 4px solid transparent;
+      height: 100%;
+    }
+
+    .s4-service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(26, 43, 74, 0.1);
+      border-top-color: var(--brand-accent);
+    }
+
+    .s4-icon-box {
+      width: 50px;
+      height: 50px;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .s4-service-card:hover .s4-icon-box {
+      background-color: var(--brand-accent);
+      color: white;
+    }
+
+    .s4-bg-grid-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a2b4a' fill-opacity='0.03'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill-rule='evenodd'/%3E%3C/g%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+
+    /* Slide 5 specific */
+    .s5-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      color: #111827;
+    }
+
+    .s5-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .s5-left-panel {
+      width: 55%;
+      padding: 42px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s5-right-panel {
+      width: 45%;
+      background-color: var(--brand-dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .s5-image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(26, 43, 74, 0.85);
+      z-index: 1;
+    }
+
+    .s5-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .s5-feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .s5-feature-icon-wrapper {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .s5-large-icon-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 107, 53, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+    }
+
+    .s5-large-icon {
+      font-size: 72px;
+      color: white;
+    }
+
+    .s5-dots-pattern {
+      position: absolute;
+      top: 26px;
+      right: 26px;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#e5e7eb 2px, transparent 2px);
+      background-size: 10px 10px;
+      z-index: 0;
+    }
+
+    .s5-accent-line {
+      position: absolute;
+      left: -2px;
+      top: 10%;
+      bottom: 10%;
+      width: 4px;
+      background-color: var(--brand-accent);
+      z-index: 5;
+    }
+
+
+    /* Slide 6 specific */
+    .s6-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      color: #111827;
+    }
+
+    .s6-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .s6-left-panel {
+      width: 55%;
+      padding: 38px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s6-right-panel {
+      width: 45%;
+      background-color: var(--brand-dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .s6-image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(26, 43, 74, 0.9);
+      z-index: 1;
+    }
+
+    .s6-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .s6-feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .s6-feature-icon-wrapper {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .s6-large-icon-circle {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 107, 53, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+    }
+
+    .s6-large-icon {
+      font-size: 80px;
+      color: white;
+    }
+
+    .s6-dots-pattern {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#e5e7eb 2px, transparent 2px);
+      background-size: 10px 10px;
+      z-index: 0;
+    }
+
+    .s6-accent-line {
+      position: absolute;
+      left: -2px;
+      top: 15%;
+      bottom: 15%;
+      width: 4px;
+      background-color: var(--brand-accent);
+      z-index: 5;
+    }
+
+
+    /* Slide 7 specific */
+    .s7-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      color: #111827;
+    }
+
+    .s7-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .s7-left-panel {
+      width: 55%;
+      padding: 42px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s7-right-panel {
+      width: 45%;
+      background-color: var(--brand-dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .s7-image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(26, 43, 74, 0.85);
+      z-index: 1;
+    }
+
+    .s7-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .s7-feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .s7-feature-icon-wrapper {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .s7-large-icon-circle {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 107, 53, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+    }
+
+    .s7-large-icon {
+      font-size: 80px;
+      color: white;
+    }
+
+    .s7-dots-pattern {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#e5e7eb 2px, transparent 2px);
+      background-size: 10px 10px;
+      z-index: 0;
+    }
+
+    .s7-accent-line {
+      position: absolute;
+      left: -2px;
+      top: 10%;
+      bottom: 10%;
+      width: 4px;
+      background-color: var(--brand-accent);
+      z-index: 5;
+    }
+
+
+    /* Slide 8 specific */
+    .s8-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #f8f9fa;
+      overflow: hidden;
+      padding: 32px 48px;
+      color: #111827;
+    }
+
+    .s8-service-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      border-top: 4px solid transparent;
+      height: 100%;
+    }
+
+    .s8-service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(26, 43, 74, 0.1);
+      border-top-color: var(--brand-accent);
+    }
+
+    .s8-icon-box {
+      width: 48px;
+      height: 48px;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .s8-service-card:hover .s8-icon-box {
+      background-color: var(--brand-accent);
+      color: white;
+    }
+
+    .s8-bg-grid-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231a2b4a' fill-opacity='0.03'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill-rule='evenodd'/%3E%3C/g%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+
+    /* Slide 9 specific */
+    .s9-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      color: #111827;
+    }
+
+    .s9-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .s9-left-panel {
+      width: 55%;
+      padding: 42px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s9-right-panel {
+      width: 45%;
+      background-color: var(--brand-dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .s9-image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(26, 43, 74, 0.85);
+      z-index: 1;
+    }
+
+    .s9-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .s9-feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .s9-feature-icon-wrapper {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #eef2ff;
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .s9-large-icon-circle {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 107, 53, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+    }
+
+    .s9-large-icon {
+      font-size: 80px;
+      color: white;
+    }
+
+    .s9-dots-pattern {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#e5e7eb 2px, transparent 2px);
+      background-size: 10px 10px;
+      z-index: 0;
+    }
+
+    .s9-accent-line {
+      position: absolute;
+      left: -2px;
+      top: 10%;
+      bottom: 10%;
+      width: 4px;
+      background-color: var(--brand-accent);
+      z-index: 5;
+    }
+
+
+    /* Slide 10 specific */
+    .s10-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      padding: 44px 56px;
+      color: #111827;
+    }
+
+    .s10-bg-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background-color: #f8f9fa;
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .s10-dots-pattern {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      width: 120px;
+      height: 120px;
+      background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+      background-size: 12px 12px;
+      z-index: 0;
+    }
+
+    .s10-content-layer {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .s10-section-tag {
+      color: var(--brand-accent);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .s10-section-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--brand-accent);
+      margin-right: 10px;
+    }
+
+    .s10-main-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .s10-subtitle {
+      font-family: 'Open Sans', sans-serif;
+      color: #64748b;
+      font-size: 1rem;
+      max-width: 700px;
+      margin-bottom: 2.2rem;
+      line-height: 1.6;
+    }
+
+    .s10-logo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 18px;
+      flex-grow: 1;
+    }
+
+    .s10-partner-card {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .s10-partner-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: var(--brand-accent);
+    }
+
+    .s10-partner-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--brand-accent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+
+    .s10-partner-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .s10-logo-icon {
+      font-size: 2.3rem;
+      color: #1a2b4a;
+      margin-bottom: 0.7rem;
+      transition: color 0.3s ease;
+    }
+
+    .s10-partner-card:hover .s10-logo-icon {
+      color: var(--brand-accent);
+    }
+
+    .s10-partner-name {
+      font-weight: 700;
+      color: #1a2b4a;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .s10-partner-desc {
+      font-family: 'Open Sans', sans-serif;
+      color: #64748b;
+      font-size: 0.72rem;
+      text-align: center;
+    }
+
+    .s10-bottom-info {
+      margin-top: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+      gap: 14px;
+    }
+
+    .s10-certification-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #eff6ff;
+      padding: 10px 18px;
+      border-radius: 50px;
+      color: #1a2b4a;
+      font-weight: 600;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+
+    /* Slide 11 specific */
+    .s11-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      padding: 44px 56px;
+      color: #111827;
+    }
+
+    .s11-bg-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background-color: #f8f9fa;
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .s11-dots-pattern {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      width: 120px;
+      height: 120px;
+      background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+      background-size: 12px 12px;
+      z-index: 0;
+    }
+
+    .s11-content-layer {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .s11-section-tag {
+      color: var(--brand-accent);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .s11-section-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--brand-accent);
+      margin-right: 10px;
+    }
+
+    .s11-main-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .s11-subtitle {
+      font-family: 'Open Sans', sans-serif;
+      color: #64748b;
+      font-size: 1rem;
+      max-width: 800px;
+      margin-bottom: 1.6rem;
+      line-height: 1.6;
+    }
+
+    .s11-client-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .s11-client-card {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .s11-client-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-color: var(--brand-accent);
+    }
+
+    .s11-client-name {
+      font-weight: 600;
+      color: #1a2b4a;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .s11-client-icon {
+      color: #cbd5e1;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .s11-client-card:hover .s11-client-icon {
+      color: var(--brand-accent);
+    }
+
+    .s11-bottom-info {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+      gap: 12px;
+    }
+
+    .s11-stat-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #fff7ed;
+      padding: 8px 16px;
+      border-radius: 50px;
+      color: #c2410c;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border: 1px solid #ffedd5;
+      flex-shrink: 0;
+    }
+
+
+    /* Slide 12 specific */
+    .s12-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      padding: 38px 56px;
+      color: #111827;
+    }
+
+    .s12-bg-pattern {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background-color: #f8f9fa;
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .s12-dots-pattern {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+      background-size: 12px 12px;
+      z-index: 0;
+    }
+
+    .s12-section-tag {
+      color: var(--brand-accent);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s12-section-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--brand-accent);
+      margin-right: 10px;
+    }
+
+    .s12-main-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s12-subtitle {
+      font-family: 'Open Sans', sans-serif;
+      color: #64748b;
+      font-size: 1rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s12-pricing-container {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .s12-pricing-card {
+      flex: 1;
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .s12-pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(26, 43, 74, 0.1);
+    }
+
+    .s12-pricing-card.featured {
+      border: 2px solid var(--brand-accent);
+      background: linear-gradient(to bottom, #ffffff, #fff7ed);
+      z-index: 2;
+    }
+
+    .s12-pricing-card.featured::before {
+      content: 'Popular';
+      position: absolute;
+      top: 24px;
+      right: -32px;
+      background: var(--brand-accent);
+      color: white;
+      padding: 4px 36px;
+      transform: rotate(45deg);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .s12-card-icon {
+      width: 56px;
+      height: 56px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: #1a2b4a;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .s12-featured .s12-card-icon {
+      background: var(--brand-accent);
+      color: white;
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+    }
+
+    .s12-plan-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a2b4a;
+      margin-bottom: 8px;
+    }
+
+    .s12-plan-price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .s12-plan-price span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #64748b;
+      margin-left: 5px;
+    }
+
+    .s12-price-subtext {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .s12-features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 auto 0;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .s12-features-list li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      color: #475569;
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .s12-features-list li i {
+      color: #10b981;
+      margin-right: 10px;
+      margin-top: 4px;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+    }
+
+    .s12-featured .s12-features-list li i {
+      color: var(--brand-accent);
+    }
+
+    .s12-card-btn {
+      margin-top: 16px;
+      display: block;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: 1px solid;
+      font-size: 0.9rem;
+    }
+
+    .s12-btn-outline {
+      border-color: #1a2b4a;
+      color: #1a2b4a;
+    }
+
+    .s12-btn-outline:hover {
+      background: #1a2b4a;
+      color: white;
+    }
+
+    .s12-btn-filled {
+      background: var(--brand-accent);
+      border-color: var(--brand-accent);
+      color: white;
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+    }
+
+    .s12-btn-filled:hover {
+      background: #e05525;
+      border-color: #e05525;
+      transform: translateY(-2px);
+    }
+
+    .s12-calc-card {
+      background: var(--brand-dark);
+      color: white;
+      border: none;
+    }
+
+    .s12-calc-card .s12-plan-name {
+      color: white;
+    }
+
+    .s12-calc-card .s12-plan-price {
+      color: var(--brand-accent);
+    }
+
+    .s12-calc-card .s12-price-subtext {
+      color: #94a3b8;
+    }
+
+    .s12-calc-card .s12-features-list li {
+      color: #cbd5e1;
+    }
+
+    .s12-calc-card .s12-features-list li i {
+      color: var(--brand-accent);
+    }
+
+    .s12-calc-card .s12-card-btn {
+      background: white;
+      color: #1a2b4a;
+      border-color: white;
+    }
+
+    .s12-calc-card .s12-card-btn:hover {
+      background: #f1f5f9;
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .s12-calc-icon-bg {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      font-size: 10rem;
+      color: rgba(255, 255, 255, 0.03);
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+
+
+    /* Slide 13 specific */
+    .s13-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: var(--brand-dark);
+      overflow: hidden;
+      color: white;
+    }
+
+    .s13-circle-bg {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.03);
+      z-index: 0;
+    }
+
+    .s13-circle-1 {
+      width: 800px;
+      height: 800px;
+      top: -200px;
+      right: -200px;
+    }
+
+    .s13-circle-2 {
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      left: -100px;
+      border: 2px solid rgba(255, 107, 53, 0.1);
+      background-color: transparent;
+    }
+
+    .s13-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 10;
+    }
+
+    .s13-left-col {
+      flex: 1.2;
+      padding: 54px 0 54px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .s13-right-col {
+      flex: 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-right: 30px;
+    }
+
+    .s13-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: rgba(255, 107, 53, 0.15);
+      border: 1px solid var(--brand-accent);
+      border-radius: 50px;
+      color: var(--brand-accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      width: fit-content;
+    }
+
+    .s13-main-title {
+      font-size: 3.1rem;
+      font-weight: 900;
+      color: white;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .s13-highlight {
+      color: var(--brand-accent);
+    }
+
+    .s13-description {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-bottom: 1.4rem;
+      line-height: 1.55;
+      max-width: 560px;
+    }
+
+    .s13-audit-points {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 1.4rem;
+    }
+
+    .s13-point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .s13-point-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #263c5e;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-accent);
+      font-size: 1.12rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .s13-point-content h3 {
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+      margin-top: 0;
+    }
+
+    .s13-point-content p {
+      font-family: 'Open Sans', sans-serif;
+      color: #94a3b8;
+      font-size: 0.81rem;
+      margin: 0;
+    }
+
+    .s13-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--brand-accent);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+      width: fit-content;
+    }
+
+    .s13-cta-btn:hover {
+      background-color: #e05525;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+    }
+
+    .s13-visual-card {
+      background-color: white;
+      border-radius: 20px;
+      padding: 28px;
+      width: 340px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      transform: rotate(-3deg);
+      z-index: 10;
+    }
+
+    .s13-visual-card::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      height: 10px;
+      background-color: #e2e8f0;
+      border-radius: 5px;
+    }
+
+    .s13-visual-row {
+      height: 12px;
+      background-color: #f1f5f9;
+      margin-bottom: 12px;
+      border-radius: 6px;
+    }
+
+    .s13-visual-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 90px;
+      margin: 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .s13-bar {
+      flex: 1;
+      background-color: #cbd5e1;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .s13-bar.active {
+      background-color: var(--brand-accent);
+    }
+
+    .s13-stamp {
+      position: absolute;
+      bottom: 18px;
+      right: -18px;
+      width: 98px;
+      height: 98px;
+      border: 4px solid #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #10b981;
+      font-weight: 900;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      transform: rotate(-15deg);
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .s13-icon-floating {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.1);
+      z-index: 1;
+    }
+
+
+    /* Slide 14 specific */
+    .s14-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+      background-color: var(--brand-dark);
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    .s14-bg-circle-1 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.03);
+      top: -100px;
+      right: -100px;
+      z-index: 1;
+    }
+
+    .s14-bg-circle-2 {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 107, 53, 0.2);
+      bottom: -50px;
+      left: -50px;
+      z-index: 1;
+    }
+
+    .s14-bg-dots {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      width: 150px;
+      height: 150px;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 2px, transparent 2px);
+      background-size: 15px 15px;
+      z-index: 1;
+    }
+
+    .s14-content-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      padding: 56px;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .s14-left-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .s14-section-tag {
+      color: var(--brand-accent);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .s14-section-tag::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 3px;
+      background-color: var(--brand-accent);
+      margin-right: 15px;
+    }
+
+    .s14-main-heading {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .s14-description {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.55;
+      max-width: 500px;
+    }
+
+    .s14-cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--brand-accent);
+      color: white;
+      padding: 14px 34px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+      text-decoration: none;
+      width: fit-content;
+    }
+
+    .s14-cta-button:hover {
+      background-color: #e05525;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255, 107, 53, 0.5);
+    }
+
+    .s14-right-col {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      max-height: 500px;
+    }
+
+    .s14-logo-area {
+      margin-bottom: 24px;
+    }
+
+    .s14-logo-text {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: white;
+      margin: 0;
+    }
+
+    .s14-logo-sub {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brand-accent);
+      margin-top: 5px;
+    }
+
+    .s14-contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .s14-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .s14-icon-box {
+      width: 50px;
+      height: 50px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-accent);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .s14-contact-item:hover .s14-icon-box {
+      background-color: var(--brand-accent);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .s14-contact-text h4 {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin: 0 0 4px 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .s14-contact-text p {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 1.05rem;
+      color: white;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .s14-experience-box {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .s14-exp-number {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--brand-accent);
+      line-height: 1;
+    }
+
+    .s14-exp-text {
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .s14-footer-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background-color: var(--brand-accent);
+      z-index: 2;
+    }
+  
+
+    .lang-switcher {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 60;
+      display: inline-flex;
+      background: rgba(17, 24, 39, 0.75);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      padding: 4px;
+      backdrop-filter: blur(8px);
+      gap: 4px;
+    }
+
+    .lang-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      color: #e5e7eb;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      color: #fff;
+      background: #ff6b35;
+      box-shadow: 0 4px 10px rgba(255,107,53,.35);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="presentation" aria-label="Prezentare Comoda">
+    <div class="lang-switcher" aria-label="Language switcher">
+      <button class="lang-btn" type="button" data-lang="ro">RO</button>
+      <button class="lang-btn" type="button" data-lang="ru">RU</button>
+      <button class="lang-btn" type="button" data-lang="en">EN</button>
+    </div>
+
+    <section class="viewport" aria-live="polite">
+      <!-- Slide 1 -->
+      <article class="slide active" data-slide>
+        <div class="slide-inner" style="background-color: var(--brand-dark);">
+          <div class="absolute top-0 left-0 w-full h-full bg-[#1a2b4a] z-0"></div>
+
+          <div class="absolute top-0 right-0 w-3/5 h-full z-10 clip-shape">
+            <img
+              alt="IT Infrastructure Abstract"
+              class="w-full h-full object-cover object-center opacity-80"
+              src="assets/images/hero-it.webp"
+            />
+            <div class="absolute inset-0 bg-[#1a2b4a] opacity-20"></div>
+          </div>
+
+          <div class="relative z-20 flex flex-col justify-center h-full pl-16 lg:pl-24 w-1/2 text-white">
+            <div class="mb-12 lg:mb-16 flex items-center gap-4">
+              <div class="w-12 h-12 bg-[#ff6b35] rounded-md flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-network-wired text-white text-2xl"></i>
+              </div>
+              <div class="flex flex-col">
+                <p class="text-3xl font-black tracking-widest text-white m-0 leading-none">COMODA</p>
+                <p class="text-xs text-gray-400 tracking-widest m-0 uppercase mt-1">IT Solutions</p>
+              </div>
+            </div>
+
+            <div class="mb-6 lg:mb-8">
+              <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs lg:text-sm mb-4 flex items-center gap-2">
+                <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                Outsourcing IT profesionist
+              </p>
+              <h1 class="text-5xl lg:text-7xl font-black leading-none tracking-tight mb-3 lg:mb-4 text-white drop-shadow-lg">SOLUȚII IT</h1>
+              <h2 class="text-2xl lg:text-4xl font-light text-gray-200">PENTRU AFACEREA DVS.</h2>
+            </div>
+
+            <div class="mb-10 lg:mb-16 border-l-4 border-[#ff6b35] pl-6 py-1">
+              <p class="text-lg lg:text-xl text-gray-300 font-light leading-relaxed max-w-md font-opensans m-0">
+                Oferim servicii IT, iar cel mai important — <br />
+                <span class="text-white font-bold">liniște și stabilitate</span>.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-8 lg:gap-10 mt-auto mb-8 lg:mb-16 font-opensans text-sm text-gray-400">
+              <div class="flex items-center gap-3 group cursor-pointer">
+                <div class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center group-hover:border-[#ff6b35] transition-colors">
+                  <i class="fa-solid fa-globe text-[#ff6b35]"></i>
+                </div>
+                <p class="m-0 text-white font-medium">www.comoda.md</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center">
+                  <i class="fa-solid fa-shield-halved text-[#ff6b35]"></i>
+                </div>
+                <p class="m-0">15 ani de experiență</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-8 right-12 z-30">
+            <p class="text-[#ff6b35] text-xs font-mono tracking-widest opacity-80">SYS.STATUS: ONLINE</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 2 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s2-layout">
+            <div class="s2-left">
+              <div class="s2-pattern"></div>
+              <div class="relative z-10">
+                <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-sm mb-4 flex items-center gap-2">
+                  <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                  DESPRE NOI
+                </p>
+                <h1 class="text-5xl font-black mb-8 leading-tight">
+                  Partenerul dvs. <br />
+                  <span class="text-[#ff6b35]">IT de încredere</span>
+                </h1>
+                <p class="font-opensans text-gray-300 mb-10 text-lg leading-relaxed">
+                  Nu doar configurăm calculatoare. Construim un mediu în care afacerea dvs. poate crește fără obstacole tehnice.
+                </p>
+
+                <div class="s2-stat">
+                  <p class="text-5xl font-bold text-white mb-1">15+</p>
+                  <p class="text-sm uppercase tracking-wider text-gray-300">Ani de experiență pe piața din Moldova</p>
+                </div>
+                <div class="s2-stat">
+                  <p class="text-5xl font-bold text-white mb-1">24/7</p>
+                  <p class="text-sm uppercase tracking-wider text-gray-300">Suport tehnic și monitorizare</p>
+                </div>
+              </div>
+
+              <div class="absolute bottom-8 left-8 flex items-center gap-2 opacity-50">
+                <i class="fa-solid fa-server text-[#ff6b35]"></i>
+                <span class="text-xs font-mono tracking-widest">COMODA.MD SYSTEM CORE</span>
+              </div>
+            </div>
+
+            <div class="s2-right">
+              <div class="mb-6">
+                <h2 class="text-3xl font-bold text-[#1a2b4a] mb-2">De ce ne aleg clienții?</h2>
+                <p class="text-gray-500 font-opensans">Construim relații pe termen lung bazate pe încredere și rezultate.</p>
+              </div>
+
+              <div class="s2-bullet">
+                <div class="s2-icon"><i class="fa-solid fa-handshake text-[#1a2b4a]"></i></div>
+                <div>
+                  <h3 class="text-xl font-bold text-[#1a2b4a] mb-2">Parteneriat pe termen lung</h3>
+                  <p class="text-gray-600 font-opensans text-sm leading-relaxed">
+                    Nu suntem doar furnizori, ci parteneri reali ai clienților noștri, ajutându-i să se dezvolte ani la rând.
+                  </p>
+                </div>
+              </div>
+
+              <div class="s2-bullet">
+                <div class="s2-icon"><i class="fa-solid fa-rocket text-[#1a2b4a]"></i></div>
+                <div>
+                  <h3 class="text-xl font-bold text-[#1a2b4a] mb-2">Creștere prin tehnologie</h3>
+                  <p class="text-gray-600 font-opensans text-sm leading-relaxed">
+                    Ajutăm zeci de companii să se extindă, implementând instrumentele IT potrivite și optimizând procesele.
+                  </p>
+                </div>
+              </div>
+
+              <div class="s2-bullet mb-0">
+                <div class="s2-icon"><i class="fa-solid fa-bolt text-[#1a2b4a]"></i></div>
+                <div>
+                  <h3 class="text-xl font-bold text-[#1a2b4a] mb-2">Rezolvare rapidă a problemelor</h3>
+                  <p class="text-gray-600 font-opensans text-sm leading-relaxed">
+                    De la imprimante nefuncționale până la configurarea serverelor — rezolvăm prompt orice problemă tehnică, pentru ca afacerea dvs. să nu se oprească.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 3 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s3-container s3-bg-pattern">
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-white opacity-5 transform skew-x-12 translate-x-20 z-0"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#ff6b35] opacity-10 rounded-full filter blur-3xl z-0 transform -translate-x-1/2 translate-y-1/2"></div>
+
+            <div class="relative z-10 w-full h-full flex flex-col items-center justify-center px-16 text-center">
+              <div class="mb-6 flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-[#ff6b35]"></div>
+                <p class="text-[#ff6b35] font-bold tracking-[0.25em] uppercase text-sm m-0">Misiunea noastră</p>
+                <div class="w-2 h-2 rounded-full bg-[#ff6b35]"></div>
+              </div>
+
+              <div class="mb-8 max-w-5xl">
+                <h1 class="text-5xl md:text-6xl font-black text-white leading-tight m-0 drop-shadow-xl">
+                  Cât de bine ar fi să aveți <br />
+                  <span class="text-[#ff6b35]">o echipă IT dedicată</span>
+                  pentru afacerea dvs.?
+                </h1>
+              </div>
+
+              <div class="mb-16 max-w-3xl">
+                <p class="text-xl text-gray-300 font-opensans font-light leading-relaxed m-0">
+                  Imaginați-vă un birou în care totul funcționează perfect. Configurăm rețele, protejăm datele și rezolvăm instant orice problemă — ca dvs. să vă concentrați pe business, nu pe cabluri.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 gap-8 w-full max-w-5xl">
+                <div class="s3-glass-card rounded-xl p-8 flex flex-col items-center text-center group">
+                  <div class="w-16 h-16 rounded-full bg-[#1a2b4a] border-2 border-[#ff6b35] flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-network-wired text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 m-0">Configurare rețele</h3>
+                  <p class="text-sm text-gray-400 font-opensans leading-relaxed m-0">
+                    Wi‑Fi stabil, rețele locale și acces securizat la internet pentru întregul birou.
+                  </p>
+                </div>
+
+                <div class="s3-glass-card rounded-xl p-8 flex flex-col items-center text-center group">
+                  <div class="w-16 h-16 rounded-full bg-[#1a2b4a] border-2 border-[#ff6b35] flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-shield-virus text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 m-0">Securitate</h3>
+                  <p class="text-sm text-gray-400 font-opensans leading-relaxed m-0">
+                    Backup automat al datelor și protecție 24/7 împotriva amenințărilor cibernetice.
+                  </p>
+                </div>
+
+                <div class="s3-glass-card rounded-xl p-8 flex flex-col items-center text-center group">
+                  <div class="w-16 h-16 rounded-full bg-[#1a2b4a] border-2 border-[#ff6b35] flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-headset text-2xl text-white"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 m-0">Asistență rapidă</h3>
+                  <p class="text-sm text-gray-400 font-opensans leading-relaxed m-0">
+                    Rezolvăm problemele imediat: de la setarea imprimantei până la administrarea serverelor.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute top-24 left-12 text-[#ff6b35] opacity-10 text-9xl font-serif z-0 leading-none">“</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 4 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s4-container">
+            <div class="s4-bg-grid-pattern"></div>
+
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="mb-7 text-center">
+                <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs mb-3 flex items-center justify-center gap-3">
+                  <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                  CE FACEM
+                  <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                </p>
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-3 uppercase tracking-tight">Serviciile noastre</h1>
+                <p class="text-gray-500 font-opensans max-w-2xl mx-auto text-sm leading-relaxed">
+                  Preluăm toate aspectele tehnice, astfel încât să vă puteți concentra pe dezvoltarea afacerii.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 grid-rows-2 gap-5 flex-1">
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-laptop-code"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Administrare IT</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Întreținere completă pentru calculatoare și echipamente de birou. Rezolvăm problemele cu imprimantele, laptopurile și software-ul, pentru lucru fără întreruperi.
+                  </p>
+                </div>
+
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-network-wired"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Configurare rețele</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Proiectare și instalare rețele locale (LAN/Wi‑Fi). Asigurăm internet stabil și cablare corectă în birou.
+                  </p>
+                </div>
+
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Backup</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Backup automat pentru baze de date 1C și documente importante. Protecție sigură împotriva pierderii datelor la incidente sau atacuri.
+                  </p>
+                </div>
+
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Securitate cibernetică</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Implementare antivirus și firewall. Protecție împotriva ransomware-ului și atacurilor hackerilor. Parteneri Bitdefender.
+                  </p>
+                </div>
+
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-window-restore"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Instalare software</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Licențiere, instalare și configurare software de birou, CRM, 1C și soluții specializate pentru nevoile dvs.
+                  </p>
+                </div>
+
+                <div class="s4-service-card group">
+                  <div class="s4-icon-box"><i class="fa-solid fa-tower-broadcast"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Monitorizare 24/7</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Monitorizare non-stop a serverelor și componentelor critice. Identificăm și rezolvăm problemele înainte să afecteze afacerea.
+                  </p>
+                </div>
+              </div>
+
+              <div class="absolute bottom-0 right-0 opacity-10 pointer-events-none">
+                <i class="fa-solid fa-server text-9xl text-[#1a2b4a] transform translate-y-10 translate-x-10"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 5 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s5-container">
+            <div class="s5-content-wrapper">
+              <div class="s5-left-panel">
+                <div class="s5-dots-pattern"></div>
+
+                <div class="mb-5 flex items-center">
+                  <div class="w-8 h-8 rounded bg-[#eef2ff] flex items-center justify-center mr-3 text-[#1a2b4a]">
+                    <i class="fa-solid fa-layer-group text-sm"></i>
+                  </div>
+                  <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs m-0">SERVICIILE NOASTRE</p>
+                </div>
+
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-5 leading-tight uppercase">
+                  Administrare IT <br />
+                  <span class="text-[#ff6b35] font-light">biroului dvs.</span>
+                </h1>
+
+                <p class="text-gray-600 font-opensans text-lg leading-relaxed mb-8 max-w-xl">
+                  Uitați de blocajele tehnice. Ne asumăm responsabilitatea completă pentru funcționarea infrastructurii IT, astfel încât dvs. să vă concentrați pe dezvoltarea afacerii.
+                </p>
+
+                <div class="flex flex-col">
+                  <div class="s5-feature-item">
+                    <div class="s5-feature-icon-wrapper"><i class="fa-solid fa-print"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Suport echipamente</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Rezolvarea problemelor cu imprimante, scanere, laptopuri și servere.</p>
+                    </div>
+                  </div>
+
+                  <div class="s5-feature-item">
+                    <div class="s5-feature-icon-wrapper"><i class="fa-solid fa-user-gear"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Administrare utilizatori</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Gestionarea drepturilor de acces, crearea conturilor noi.</p>
+                    </div>
+                  </div>
+
+                  <div class="s5-feature-item">
+                    <div class="s5-feature-icon-wrapper"><i class="fa-solid fa-headset"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Helpdesk pentru angajați</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Asistență rapidă, clară și prietenoasă pentru colegii dvs.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-auto pt-6 border-t border-gray-100 flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500"></i>
+                  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider m-0">Garanția funcționării stabile</p>
+                </div>
+              </div>
+
+              <div class="s5-right-panel">
+                <img alt="IT Office Support" class="s5-bg-image" src="assets/images/hero-it.webp" />
+                <div class="s5-image-overlay"></div>
+                <div class="s5-accent-line"></div>
+
+                <div class="flex flex-col items-center relative z-10 text-center px-10">
+                  <div class="s5-large-icon-circle mb-8 shadow-2xl">
+                    <i class="fa-solid fa-laptop-medical s5-large-icon"></i>
+
+                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-[#ff6b35] rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-wrench text-white text-sm"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-check text-[#1a2b4a] text-sm"></i>
+                    </div>
+                  </div>
+                  <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-wide">Control total</h3>
+                  <p class="text-gray-300 font-opensans text-sm max-w-xs leading-relaxed">
+                    Monitorizare, inventariere și mentenanță planificată a echipamentelor dvs.
+                  </p>
+                </div>
+
+                <div class="absolute bottom-6 right-6 z-10 opacity-30">
+                  <p class="text-xs font-mono text-white tracking-widest m-0">SRV.ADMIN.V.2.0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 6 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s6-container">
+            <div class="s6-content-wrapper">
+              <div class="s6-left-panel">
+                <div class="s6-dots-pattern"></div>
+
+                <div class="mb-5 flex items-center">
+                  <div class="w-8 h-8 rounded bg-[#eef2ff] flex items-center justify-center mr-3 text-[#1a2b4a]">
+                    <i class="fa-solid fa-shield-halved text-sm"></i>
+                  </div>
+                  <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs m-0">SERVICIILE NOASTRE</p>
+                </div>
+
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-5 leading-tight uppercase">
+                  Rețele și <br />
+                  <span class="text-[#ff6b35] font-light">Securitate</span>
+                </h1>
+
+                <p class="text-gray-600 font-opensans text-lg leading-relaxed mb-7 max-w-xl">
+                  Internet stabil și protecție fiabilă — baza afacerii dvs. Construim rețele sigure și protejăm datele împotriva oricăror amenințări.
+                </p>
+
+                <div class="flex flex-col">
+                  <div class="s6-feature-item">
+                    <div class="s6-feature-icon-wrapper"><i class="fa-solid fa-network-wired"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Rețele locale (LAN/Wi‑Fi)</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Proiectare, configurare și management ordonat al cablurilor.</p>
+                    </div>
+                  </div>
+
+                  <div class="s6-feature-item">
+                    <div class="s6-feature-icon-wrapper"><i class="fa-solid fa-wifi"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Internet stabil</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Configurarea echipamentelor pentru acces neîntrerupt la rețea.</p>
+                    </div>
+                  </div>
+
+                  <div class="s6-feature-item">
+                    <div class="s6-feature-icon-wrapper"><i class="fa-solid fa-virus-slash"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Protecție împotriva amenințărilor cibernetice</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Protecție antivirus și monitorizarea atacurilor.</p>
+                    </div>
+                  </div>
+
+                  <div class="s6-feature-item">
+                    <div class="s6-feature-icon-wrapper"><i class="fa-solid fa-handshake"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Parteneri de încredere</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Lucrăm cu soluțiile liderilor: Bitdefender și Acronis.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-auto pt-6 border-t border-gray-100 flex items-center gap-2">
+                  <i class="fa-solid fa-lock text-green-500"></i>
+                  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider m-0">Confidențialitate totală a datelor</p>
+                </div>
+              </div>
+
+              <div class="s6-right-panel">
+                <img alt="Network Security" class="s6-bg-image" src="assets/images/hero-it.webp" />
+                <div class="s6-image-overlay"></div>
+                <div class="s6-accent-line"></div>
+
+                <div class="flex flex-col items-center relative z-10 text-center px-10">
+                  <div class="s6-large-icon-circle mb-8 shadow-2xl">
+                    <i class="fa-solid fa-user-shield s6-large-icon"></i>
+
+                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-[#ff6b35] rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-bug-slash text-white text-sm"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-server text-[#1a2b4a] text-sm"></i>
+                    </div>
+                  </div>
+                  <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-wide">Cyberprotecție</h3>
+                  <p class="text-gray-300 font-opensans text-sm max-w-xs leading-relaxed">
+                    Monitorizare proactivă și prevenirea incidentelor de securitate 24/7.
+                  </p>
+                </div>
+
+                <div class="absolute bottom-6 right-6 z-10 opacity-30">
+                  <p class="text-xs font-mono text-white tracking-widest m-0">SEC.NET.V.4.0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 7 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s7-container">
+            <div class="s7-content-wrapper">
+              <div class="s7-left-panel">
+                <div class="s7-dots-pattern"></div>
+
+                <div class="mb-6 flex items-center">
+                  <div class="w-8 h-8 rounded bg-[#eef2ff] flex items-center justify-center mr-3 text-[#1a2b4a]">
+                    <i class="fa-solid fa-server text-sm"></i>
+                  </div>
+                  <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs m-0">SERVICIILE NOASTRE</p>
+                </div>
+
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-6 leading-tight uppercase">
+                  Backup <br />
+                  <span class="text-[#ff6b35] font-light">și protecția datelor</span>
+                </h1>
+
+                <p class="text-gray-600 font-opensans text-lg leading-relaxed mb-8 max-w-xl">
+                  Datele dvs. sunt cel mai valoros activ al companiei. Le protejăm cu sisteme automate de backup, astfel încât niciun byte să nu fie pierdut.
+                </p>
+
+                <div class="flex flex-col">
+                  <div class="s7-feature-item">
+                    <div class="s7-feature-icon-wrapper"><i class="fa-solid fa-database"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Securitatea bazelor de date 1C</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Copiere sigură a bazelor 1C și a documentelor, fără oprirea activității contabile.</p>
+                    </div>
+                  </div>
+
+                  <div class="s7-feature-item">
+                    <div class="s7-feature-icon-wrapper"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Stocare cloud și externă</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Păstrăm copii în afara biroului și în cloud pentru protecție la defecte fizice ale echipamentelor.</p>
+                    </div>
+                  </div>
+
+                  <div class="s7-feature-item">
+                    <div class="s7-feature-icon-wrapper"><i class="fa-solid fa-shield-virus"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Protecție împotriva atacurilor cibernetice</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Copii izolate, inaccesibile ransomware-ului și hackerilor.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-auto pt-8 border-t border-gray-100 flex items-center gap-2">
+                  <i class="fa-solid fa-history text-green-500"></i>
+                  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider m-0">Backup automat zilnic</p>
+                </div>
+              </div>
+
+              <div class="s7-right-panel">
+                <img alt="Cloud Backup Security" class="s7-bg-image" src="assets/images/backup-cloud.webp" />
+                <div class="s7-image-overlay"></div>
+                <div class="s7-accent-line"></div>
+
+                <div class="flex flex-col items-center relative z-10 text-center px-10">
+                  <div class="s7-large-icon-circle mb-8 shadow-2xl">
+                    <i class="fa-solid fa-shield-halved s7-large-icon"></i>
+
+                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-[#ff6b35] rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-lock text-white text-sm"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-rotate text-[#1a2b4a] text-sm"></i>
+                    </div>
+                  </div>
+                  <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-wide">100% Siguranță</h3>
+                  <p class="text-gray-300 font-opensans text-sm max-w-xs leading-relaxed">
+                    Dormiți liniștit, știind că datele dvs. sunt protejate și pot fi restaurate oricând.
+                  </p>
+                </div>
+
+                <div class="absolute bottom-6 right-6 z-10 opacity-30">
+                  <p class="text-xs font-mono text-white tracking-widest m-0">SYS.BACKUP.AUTO</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 8 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s8-container">
+            <div class="s8-bg-grid-pattern"></div>
+
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="mb-6 text-center">
+                <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs mb-2 flex items-center justify-center gap-3">
+                  <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                  VALORILE NOASTRE
+                  <span class="w-8 h-[2px] bg-[#ff6b35] block"></span>
+                </p>
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-2 uppercase tracking-tight">Abordarea noastră — 6 principii</h1>
+                <p class="text-gray-500 font-opensans max-w-2xl mx-auto text-sm leading-relaxed">
+                  Ne organizăm munca astfel încât infrastructura IT să nu fie doar un set de echipamente, ci o fundație solidă pentru dezvoltarea afacerii.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 grid-rows-2 gap-x-6 gap-y-5 flex-1">
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-layer-group"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Redundanță</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Ne pregătim pentru orice scenariu. Linii de internet de rezervă, backup-uri automate și echipamente de substituție garantează continuitatea.
+                  </p>
+                </div>
+
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-shield-virus"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Securitate</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Protejăm totul: de la calculatoare la servere și e-mail corporativ. Apărăm în mod fiabil datele sensibile împotriva amenințărilor externe și virusurilor.
+                  </p>
+                </div>
+
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-gauge-high"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Viteză</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Pornire rapidă a PC-urilor, internet stabil și reacție imediată a suportului. Vă prețuim timpul și eliminăm întârzierile.
+                  </p>
+                </div>
+
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-globe"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Accesibilitate</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Datele dvs. sunt mereu la îndemână. Asigurăm acces sigur la fișiere și 1C oricând, de oriunde și de pe orice dispozitiv.
+                  </p>
+                </div>
+
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-headset"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Suport 24/24</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Suntem mereu disponibili. Reacționăm rapid la orice — de la incidente critice noaptea până la întrebări simple ziua.
+                  </p>
+                </div>
+
+                <div class="s8-service-card group">
+                  <div class="s8-icon-box"><i class="fa-solid fa-lightbulb"></i></div>
+                  <h3 class="text-lg font-bold text-[#1a2b4a] mb-2">Gândire orientată spre viitor</h3>
+                  <p class="text-xs text-gray-600 font-opensans leading-relaxed">
+                    Nu doar reparăm, ci dezvoltăm. Prevenim problemele înainte să apară și propunem soluții care ajută afacerea să crească.
+                  </p>
+                </div>
+              </div>
+
+              <div class="absolute bottom-0 right-0 opacity-5 pointer-events-none">
+                <i class="fa-solid fa-handshake text-9xl text-[#1a2b4a] transform translate-y-10 translate-x-10"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 9 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s9-container">
+            <div class="s9-content-wrapper">
+              <div class="s9-left-panel">
+                <div class="s9-dots-pattern"></div>
+
+                <div class="mb-6 flex items-center">
+                  <div class="w-8 h-8 rounded bg-[#eef2ff] flex items-center justify-center mr-3 text-[#1a2b4a]">
+                    <i class="fa-solid fa-robot text-sm"></i>
+                  </div>
+                  <p class="text-[#ff6b35] font-bold tracking-widest uppercase text-xs m-0">SERVICIILE NOASTRE</p>
+                </div>
+
+                <h1 class="text-4xl font-black text-[#1a2b4a] mb-6 leading-tight uppercase">
+                  Automatizare <br />
+                  <span class="text-[#ff6b35] font-light">&amp; Monitorizare</span>
+                </h1>
+
+                <p class="text-gray-600 font-opensans text-lg leading-relaxed mb-8 max-w-xl">
+                  Eliminați factorul uman și timpii morți. Automatizăm procesele repetitive și monitorizăm sistemele non-stop, prevenind problemele înainte să apară.
+                </p>
+
+                <div class="flex flex-col">
+                  <div class="s9-feature-item">
+                    <div class="s9-feature-icon-wrapper"><i class="fa-solid fa-sync"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Sincronizarea sistemelor</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Unificăm CRM, 1C, e-mailul și serviciile cloud într-un singur ecosistem.</p>
+                    </div>
+                  </div>
+
+                  <div class="s9-feature-item">
+                    <div class="s9-feature-icon-wrapper"><i class="fa-solid fa-file-export"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Automatizarea datelor</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Configurăm importul/exportul automat al datelor, eliminând erorile de introducere manuală.</p>
+                    </div>
+                  </div>
+
+                  <div class="s9-feature-item">
+                    <div class="s9-feature-icon-wrapper"><i class="fa-solid fa-tower-observation"></i></div>
+                    <div>
+                      <p class="font-bold text-[#1a2b4a] text-lg mb-1 m-0">Monitorizare proactivă 24/7</p>
+                      <p class="text-sm text-gray-500 font-opensans m-0">Monitorizăm starea serverelor și rețelelor, reacționând instant la incidente.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-auto pt-8 border-t border-gray-100 flex items-center gap-2">
+                  <i class="fa-solid fa-chart-line text-green-500"></i>
+                  <p class="text-xs font-bold text-gray-400 uppercase tracking-wider m-0">Eficiența afacerii crește</p>
+                </div>
+              </div>
+
+              <div class="s9-right-panel">
+                <img alt="Automation and Monitoring" class="s9-bg-image" src="assets/images/hero-it.webp" />
+                <div class="s9-image-overlay"></div>
+                <div class="s9-accent-line"></div>
+
+                <div class="flex flex-col items-center relative z-10 text-center px-10">
+                  <div class="s9-large-icon-circle mb-8 shadow-2xl">
+                    <i class="fa-solid fa-gears s9-large-icon"></i>
+
+                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-[#ff6b35] rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-eye text-white text-sm"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-bolt text-[#1a2b4a] text-sm"></i>
+                    </div>
+                  </div>
+                  <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-wide">Mereu sub control</h3>
+                  <p class="text-gray-300 font-opensans text-sm max-w-xs leading-relaxed">
+                    Sistemele funcționează sincronizat, ca un ceas, în timp ce dvs. vă ocupați de strategie.
+                  </p>
+                </div>
+
+                <div class="absolute bottom-6 right-6 z-10 opacity-30">
+                  <p class="text-xs font-mono text-white tracking-widest m-0">SYS.AUTO.MON.ACTIVE</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 10 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s10-container">
+            <div class="s10-bg-pattern"></div>
+            <div class="s10-dots-pattern"></div>
+
+            <div class="s10-content-layer">
+              <div>
+                <p class="s10-section-tag">Ecosistem</p>
+                <h1 class="s10-main-title">Tehnologii și parteneri</h1>
+                <p class="s10-subtitle">
+                  Nu experimentăm pe clienți. Folosim doar soluții testate, licențiate și certificate de la lideri globali, pentru stabilitate garantată.
+                </p>
+              </div>
+
+              <div class="s10-logo-grid">
+                <div class="s10-partner-card">
+                  <i class="fa-brands fa-microsoft s10-logo-icon"></i>
+                  <p class="s10-partner-name">Microsoft</p>
+                  <p class="s10-partner-desc">Windows, Office 365, Azure Cloud Solutions</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-shield-virus s10-logo-icon"></i>
+                  <p class="s10-partner-name">Bitdefender</p>
+                  <p class="s10-partner-desc">Protecție antivirus complexă și EDR</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-cloud-arrow-up s10-logo-icon"></i>
+                  <p class="s10-partner-name">Acronis</p>
+                  <p class="s10-partner-desc">Backup în cloud și recuperare în caz de dezastru</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-network-wired s10-logo-icon"></i>
+                  <p class="s10-partner-name">Network Solutions</p>
+                  <p class="s10-partner-desc">MikroTik, Cisco, Ubiquiti UniFi</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-phone-volume s10-logo-icon"></i>
+                  <p class="s10-partner-name">Telefonie IP</p>
+                  <p class="s10-partner-desc">3CX, Asterisk, integrare cu CRM</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-file-invoice-dollar s10-logo-icon"></i>
+                  <p class="s10-partner-name">1C:Enterprise</p>
+                  <p class="s10-partner-desc">Administrare, actualizare și protecție baze de date</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-server s10-logo-icon"></i>
+                  <p class="s10-partner-name">Virtualizare</p>
+                  <p class="s10-partner-desc">VMware, Hyper-V, Proxmox</p>
+                </div>
+
+                <div class="s10-partner-card">
+                  <i class="fa-solid fa-tower-observation s10-logo-icon"></i>
+                  <p class="s10-partner-name">Monitorizare</p>
+                  <p class="s10-partner-desc">Zabbix, Grafana, sisteme de alertare</p>
+                </div>
+              </div>
+
+              <div class="s10-bottom-info">
+                <div class="s10-certification-badge">
+                  <i class="fa-solid fa-certificate text-[#ff6b35]"></i>
+                  <span>Ingineri certificați</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-opensans text-gray-500">
+                  <i class="fa-solid fa-circle-check text-green-500"></i>
+                  <p>Tot software-ul este licențiat și respectă standardele de securitate</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 11 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s11-container">
+            <div class="s11-bg-pattern"></div>
+            <div class="s11-dots-pattern"></div>
+
+            <div class="s11-content-layer">
+              <div>
+                <p class="s11-section-tag">Clienții noștri</p>
+                <h1 class="s11-main-title">Ne acordă încredere</h1>
+                <p class="s11-subtitle">
+                  Peste 17 companii cunoscute din Moldova ne-au ales drept partener IT de încredere pentru stabilitatea afacerii lor.
+                </p>
+              </div>
+
+              <div class="s11-client-grid">
+                <div class="s11-client-card"><i class="fa-solid fa-mug-hot s11-client-icon"></i><p class="s11-client-name">Tucano Coffee</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-paint-roller s11-client-icon"></i><p class="s11-client-name">Caparol</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-cookie-bite s11-client-icon"></i><p class="s11-client-name">BeSWEET</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-briefcase s11-client-icon"></i><p class="s11-client-name">ABSL</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-lightbulb s11-client-icon"></i><p class="s11-client-name">LuxAli</p></div>
+
+                <div class="s11-client-card"><i class="fa-solid fa-handshake s11-client-icon"></i><p class="s11-client-name">Vioser</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-scale-balanced s11-client-icon"></i><p class="s11-client-name">Turcan Law</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-utensils s11-client-icon"></i><p class="s11-client-name">Star Kebab</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-globe s11-client-icon"></i><p class="s11-client-name">Travod</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-house-window s11-client-icon"></i><p class="s11-client-name">Eco Ferestre</p></div>
+
+                <div class="s11-client-card"><i class="fa-solid fa-spray-can-sparkles s11-client-icon"></i><p class="s11-client-name">Kärcher Shop</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-shoe-prints s11-client-icon"></i><p class="s11-client-name">Amma Shoes</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-shop s11-client-icon"></i><p class="s11-client-name">Vitra</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-credit-card s11-client-icon"></i><p class="s11-client-name">Credit Bun</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-tractor s11-client-icon"></i><p class="s11-client-name">Agrimatco</p></div>
+
+                <div class="s11-client-card"><i class="fa-solid fa-heart-pulse s11-client-icon"></i><p class="s11-client-name">Galaxia</p></div>
+                <div class="s11-client-card"><i class="fa-solid fa-file-shield s11-client-icon"></i><p class="s11-client-name">Acord Grup</p></div>
+                <div class="s11-client-card" style="background-color: #f8fafc; border-style: dashed;"><i class="fa-solid fa-plus s11-client-icon"></i><p class="s11-client-name">Și mulți alții</p></div>
+                <div class="s11-client-card" style="background-color: #f8fafc; border-style: dashed;"><i class="fa-solid fa-user-plus s11-client-icon"></i><p class="s11-client-name">Compania dvs.?</p></div>
+                <div class="s11-client-card" style="background-color: #ff6b35; border-color: #ff6b35;"><i class="fa-solid fa-arrow-right s11-client-icon" style="color: white;"></i><p class="s11-client-name" style="color: white;">Deveniți client</p></div>
+              </div>
+
+              <div class="s11-bottom-info">
+                <div class="s11-stat-badge">
+                  <i class="fa-solid fa-star"></i>
+                  <span>15 ani de experiență pe piața Moldovei</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-opensans text-gray-500">
+                  <i class="fa-solid fa-users text-blue-500"></i>
+                  <p>Parteneriate pe termen lung și susținerea creșterii afacerilor clienților</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 12 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s12-container">
+            <div class="s12-bg-pattern"></div>
+            <div class="s12-dots-pattern"></div>
+
+            <div>
+              <p class="s12-section-tag">Prețuri transparente</p>
+              <h1 class="s12-main-title">Abonamente pentru servicii IT</h1>
+              <p class="s12-subtitle">
+                Oferim planuri tarifare flexibile, adaptate dimensiunii și nevoilor afacerii dvs. Plătiți doar pentru ce utilizați.
+              </p>
+            </div>
+
+            <div class="s12-pricing-container">
+              <div class="s12-pricing-card s12-featured featured">
+                <div class="s12-card-icon"><i class="fa-solid fa-desktop"></i></div>
+                <h3 class="s12-plan-name">Administrare PC</h3>
+                <div class="s12-plan-price">Abonament <span>/ lună</span></div>
+                <p class="s12-price-subtext">preț per 1 calculator / lună</p>
+                <ul class="s12-features-list">
+                  <li><i class="fa-solid fa-check"></i><p>Suport remote nelimitat</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Antivirus Bitdefender licențiat</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Monitorizare 24/7</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Configurare software și actualizări</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Rezolvarea problemelor imprimantelor</p></li>
+                </ul>
+                <a class="s12-card-btn s12-btn-filled" href="https://comoda.md/contact">Comandă serviciul</a>
+              </div>
+
+              <div class="s12-pricing-card">
+                <div class="s12-card-icon"><i class="fa-solid fa-building-user"></i></div>
+                <h3 class="s12-plan-name">Plan personalizat</h3>
+                <div class="s12-plan-price">Personalizat</div>
+                <p class="s12-price-subtext">pentru infrastructuri complexe</p>
+                <ul class="s12-features-list">
+                  <li><i class="fa-solid fa-check"></i><p>Administrare completă servere și rețele</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Administrare 1C și baze de date</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Backup în cloud</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Vizite planificate ale inginerilor la birou</p></li>
+                  <li><i class="fa-solid fa-check"></i><p>Manager IT dedicat</p></li>
+                </ul>
+                <a class="s12-card-btn s12-btn-outline" href="https://comoda.md/contact">Discută condițiile</a>
+              </div>
+
+              <div class="s12-pricing-card s12-calc-card">
+                <i class="fa-solid fa-calculator s12-calc-icon-bg"></i>
+                <div class="s12-card-icon" style="background: rgba(255,255,255,0.1); color: white;"><i class="fa-solid fa-calculator"></i></div>
+                <h3 class="s12-plan-name">Calculator</h3>
+                <div class="s12-plan-price" style="font-size: 1.5rem;">Calculați singur</div>
+                <p class="s12-price-subtext" style="color: #cbd5e1;">online în 1 minut</p>
+                <p style="font-family: 'Open Sans', sans-serif; color: #e2e8f0; font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px;">
+                  Vreți să aflați costul exact al mentenanței parcului dvs. IT? Folosiți calculatorul nostru inteligent de pe site.
+                </p>
+                <ul class="s12-features-list">
+                  <li><i class="fa-solid fa-arrow-right"></i><p>Indicați numărul de calculatoare</p></li>
+                  <li><i class="fa-solid fa-arrow-right"></i><p>Alegeți servere și opțiuni</p></li>
+                  <li><i class="fa-solid fa-arrow-right"></i><p>Primiți calcul instant</p></li>
+                </ul>
+                <a class="s12-card-btn" href="https://comoda.md/pricing">Mergi la calculator</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 13 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s13-container">
+            <div class="s13-circle-bg s13-circle-1"></div>
+            <div class="s13-circle-bg s13-circle-2"></div>
+            <i class="fa-solid fa-magnifying-glass s13-icon-floating" style="font-size: 260px; right: -50px; bottom: -50px;"></i>
+            <i class="fa-solid fa-shield-halved s13-icon-floating" style="font-size: 120px; left: 48%; top: 12%;"></i>
+
+            <div class="s13-content-wrapper">
+              <div class="s13-left-col">
+                <div class="s13-badge"><i class="fa-solid fa-gift mr-2"></i> Ofertă specială</div>
+
+                <h1 class="s13-main-title">Audit IT <br /><span class="s13-highlight">gratuit</span></h1>
+
+                <p class="s13-description">
+                  Vi se pare că infrastructura funcționează stabil? O verificăm profesionist. Identificăm vulnerabilități, riscuri ascunse și puncte de creștere.
+                </p>
+
+                <div class="s13-audit-points">
+                  <div class="s13-point-item">
+                    <div class="s13-point-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="s13-point-content">
+                      <h3>Identificarea riscurilor ascunse</h3>
+                      <p>Descoperim vulnerabilități de securitate și blocaje de performanță înainte de incidente.</p>
+                    </div>
+                  </div>
+
+                  <div class="s13-point-item">
+                    <div class="s13-point-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="s13-point-content">
+                      <h3>Puncte de optimizare</h3>
+                      <p>Arătăm unde plătiți în plus și cum să faceți echipamentele să lucreze mai eficient.</p>
+                    </div>
+                  </div>
+
+                  <div class="s13-point-item">
+                    <div class="s13-point-icon"><i class="fa-solid fa-file-contract"></i></div>
+                    <div class="s13-point-content">
+                      <h3>Raport clar și plan de acțiune</h3>
+                      <p>Primiți un document detaliat cu priorități și pași clari de implementare.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <a class="s13-cta-btn" href="https://comoda.md/contact">
+                  <span>Începe cu o consultație</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+
+              <div class="s13-right-col">
+                <div class="s13-visual-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+                    <div style="width: 150px; height: 16px; background-color: #1a2b4a; border-radius: 4px;"></div>
+                    <div style="width: 40px; height: 40px; background-color: #eff6ff; border-radius: 50%;"></div>
+                  </div>
+
+                  <div class="s13-visual-row" style="width: 100%;"></div>
+                  <div class="s13-visual-row" style="width: 90%;"></div>
+                  <div class="s13-visual-row" style="width: 95%;"></div>
+
+                  <div class="s13-visual-chart">
+                    <div class="s13-bar" style="height: 40%;"></div>
+                    <div class="s13-bar" style="height: 60%;"></div>
+                    <div class="s13-bar" style="height: 30%;"></div>
+                    <div class="s13-bar" style="height: 80%;"></div>
+                    <div class="s13-bar active" style="height: 100%;"></div>
+                  </div>
+
+                  <div class="s13-visual-row" style="width: 85%;"></div>
+                  <div class="s13-visual-row" style="width: 60%;"></div>
+
+                  <div class="s13-stamp">AUDIT<br />PASSED</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 14 -->
+      <article class="slide" data-slide>
+        <div class="slide-inner">
+          <div class="s14-container">
+            <div class="s14-bg-circle-1"></div>
+            <div class="s14-bg-circle-2"></div>
+            <div class="s14-bg-dots"></div>
+            <div class="s14-footer-line"></div>
+
+            <div class="s14-content-wrapper">
+              <div class="s14-left-col">
+                <div class="s14-section-tag"><p>Gata să începeți?</p></div>
+                <h1 class="s14-main-heading">
+                  Soluții IT,<br />
+                  care lucrează<br />
+                  <span style="color: #ff6b35;">pentru afacerea dvs.</span>
+                </h1>
+                <p class="s14-description">
+                  Uitați de problemele tehnice și concentrați-vă pe dezvoltarea companiei. Programați azi o consultație și un audit gratuit.
+                </p>
+                <a class="s14-cta-button" href="https://comoda.md/contact">
+                  <span>Contactați-ne</span>
+                  <i class="fa-solid fa-arrow-right ml-3"></i>
+                </a>
+              </div>
+
+              <div class="s14-right-col">
+                <div class="s14-logo-area">
+                  <h2 class="s14-logo-text">COMODA</h2>
+                  <p class="s14-logo-sub">IT Solutions</p>
+                </div>
+
+                <div class="s14-contact-list">
+                  <div class="s14-contact-item">
+                    <div class="s14-icon-box"><i class="fa-solid fa-globe"></i></div>
+                    <div class="s14-contact-text"><h4>Website</h4><p>www.comoda.md</p></div>
+                  </div>
+                  <div class="s14-contact-item">
+                    <div class="s14-icon-box"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="s14-contact-text"><h4>Email</h4><p>contact@comoda.md</p></div>
+                  </div>
+                  <div class="s14-contact-item">
+                    <div class="s14-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="s14-contact-text"><h4>Locație</h4><p>Chișinău, Moldova</p></div>
+                  </div>
+                </div>
+
+                <div class="s14-experience-box">
+                  <div class="s14-exp-number">15</div>
+                  <div class="s14-exp-text">Ani de experiență<br />pe piața Moldovei</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+
+
+
+
+
+
+
+
+
+
+    </section>
+
+    <nav class="controls" aria-label="Navigare între slide-uri">
+      <button id="prevBtn" class="btn" type="button"><i class="fa-solid fa-arrow-left mr-2"></i>Înapoi</button>
+      <div id="dots" class="dots" aria-hidden="true"></div>
+      <div class="text-sm"><span id="counter">1 / 14</span></div>
+      <button id="nextBtn" class="btn" type="button">Înainte<i class="fa-solid fa-arrow-right ml-2"></i></button>
+    </nav>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('[data-slide]'));
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dots');
+
+    let current = 0;
+
+    function renderDots() {
+      dotsContainer.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = `dot${index === current ? ' active' : ''}`;
+        dot.type = 'button';
+        dot.addEventListener('click', () => goTo(index));
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateUI() {
+      slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+      renderDots();
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      updateUI();
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') goTo(current - 1);
+      if (event.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    updateUI();
+  </script>
+
+  <script>
+    (() => {
+      const RU = {
+        "Comoda.md Presentation": "Презентация Comoda.md",
+        "Outsourcing IT profesionist": "Профессиональный IT-аутсорсинг",
+        "SOLUȚII IT": "IT-РЕШЕНИЯ",
+        "PENTRU AFACEREA DVS.": "ДЛЯ ВАШЕГО БИЗНЕСА",
+        "Oferim servicii IT, iar cel mai important —": "Мы предоставляем IT-услуги, а главное —",
+        "liniște și stabilitate": "спокойствие и стабильность",
+        "15 ani de experiență": "15 лет опыта",
+        "DESPRE NOI": "О НАС",
+        "Partenerul dvs.": "Ваш надежный",
+        "IT de încredere": "IT-партнер",
+        "Nu doar configurăm calculatoare. Construim un mediu în care afacerea dvs. poate crește fără obstacole tehnice.": "Мы не просто настраиваем компьютеры. Мы создаем среду, в которой ваш бизнес растет без технических препятствий.",
+        "Ani de experiență pe piața din Moldova": "Лет опыта на рынке Молдовы",
+        "Suport tehnic și monitorizare": "Техническая поддержка и мониторинг",
+        "De ce ne aleg clienții?": "Почему нас выбирают клиенты?",
+        "Construim relații pe termen lung bazate pe încredere și rezultate.": "Мы выстраиваем долгосрочные отношения на основе доверия и результатов.",
+        "Parteneriat pe termen lung": "Долгосрочное партнерство",
+        "Nu suntem doar furnizori, ci parteneri reali ai clienților noștri, ajutându-i să se dezvolte ani la rând.": "Мы не просто поставщики, а настоящие партнеры наших клиентов, помогающие им развиваться годами.",
+        "Creștere prin tehnologie": "Рост через технологии",
+        "Ajutăm zeci de companii să se extindă, implementând instrumentele IT potrivite și optimizând procesele.": "Мы помогаем десяткам компаний масштабироваться, внедряя правильные IT-инструменты и оптимизируя процессы.",
+        "Rezolvare rapidă a problemelor": "Быстрое решение проблем",
+        "De la imprimante nefuncționale până la configurarea serverelor — rezolvăm prompt orice problemă tehnică, pentru ca afacerea dvs. să nu se oprească.": "От неработающих принтеров до настройки серверов — мы быстро решаем любые технические вопросы, чтобы ваш бизнес не останавливался.",
+        "Misiunea noastră": "Наша миссия",
+        "Cât de bine ar fi să aveți": "Как было бы здорово иметь",
+        "o echipă IT dedicată": "выделенную IT-команду",
+        "pentru afacerea dvs.?": "для вашего бизнеса?",
+        "Imaginați-vă un birou în care totul funcționează perfect. Configurăm rețele, protejăm datele și rezolvăm instant orice problemă — ca dvs. să vă concentrați pe business, nu pe cabluri.": "Представьте офис, где все работает идеально. Мы настраиваем сети, защищаем данные и мгновенно решаем любые проблемы — чтобы вы фокусировались на бизнесе, а не на кабелях.",
+        "Configurare rețele": "Настройка сетей",
+        "Wi‑Fi stabil, rețele locale și acces securizat la internet pentru întregul birou.": "Стабильный Wi‑Fi, локальные сети и безопасный доступ в интернет для всего офиса.",
+        "Securitate": "Безопасность",
+        "Backup automat al datelor și protecție 24/7 împotriva amenințărilor cibernetice.": "Автоматический бэкап данных и круглосуточная защита от киберугроз.",
+        "Asistență rapidă": "Быстрая поддержка",
+        "Rezolvăm problemele imediat: de la setarea imprimantei până la administrarea serverelor.": "Решаем проблемы сразу: от настройки принтера до администрирования серверов.",
+        "CE FACEM": "ЧТО МЫ ДЕЛАЕМ",
+        "Serviciile noastre": "Наши услуги",
+        "Preluăm toate aspectele tehnice, astfel încât să vă puteți concentra pe dezvoltarea afacerii.": "Мы берем на себя все технические задачи, чтобы вы сосредоточились на развитии бизнеса.",
+        "Administrare IT": "IT-администрирование",
+        "Întreținere completă pentru calculatoare și echipamente de birou. Rezolvăm problemele cu imprimantele, laptopurile și software-ul, pentru lucru fără întreruperi.": "Полное обслуживание компьютеров и офисной техники. Решаем вопросы с принтерами, ноутбуками и ПО для бесперебойной работы.",
+        "Proiectare și instalare rețele locale (LAN/Wi‑Fi). Asigurăm internet stabil și cablare corectă în birou.": "Проектирование и монтаж локальных сетей (LAN/Wi‑Fi). Обеспечиваем стабильный интернет и правильную кабельную инфраструктуру.",
+        "Backup": "Резервное копирование",
+        "Backup automat pentru baze de date 1C și documente importante. Protecție sigură împotriva pierderii datelor la incidente sau atacuri.": "Автоматический бэкап баз 1С и важных документов. Надежная защита от потери данных при инцидентах и атаках.",
+        "Securitate cibernetică": "Кибербезопасность",
+        "Implementare antivirus și firewall. Protecție împotriva ransomware-ului și atacurilor hackerilor. Parteneri Bitdefender.": "Внедряем антивирус и firewall. Защищаем от ransomware и хакерских атак. Партнеры Bitdefender.",
+        "Instalare software": "Установка ПО",
+        "Licențiere, instalare și configurare software de birou, CRM, 1C și soluții specializate pentru nevoile dvs.": "Лицензирование, установка и настройка офисного ПО, CRM, 1С и профильных решений под ваши задачи.",
+        "Monitorizare 24/7": "Мониторинг 24/7",
+        "Monitorizare non-stop a serverelor și componentelor critice. Identificăm și rezolvăm problemele înainte să afecteze afacerea.": "Круглосуточно мониторим серверы и критичные компоненты. Выявляем и устраняем проблемы до влияния на бизнес.",
+        "SERVICIILE NOASTRE": "НАШИ УСЛУГИ",
+        "biroului dvs.": "для вашего офиса",
+        "Uitați de blocajele tehnice. Ne asumăm responsabilitatea completă pentru funcționarea infrastructurii IT, astfel încât dvs. să vă concentrați pe dezvoltarea afacerii.": "Забудьте о технических сбоях. Мы полностью берем на себя ответственность за работу IT-инфраструктуры, чтобы вы развивали бизнес.",
+        "Suport echipamente": "Поддержка оборудования",
+        "Rezolvarea problemelor cu imprimante, scanere, laptopuri și servere.": "Решение проблем с принтерами, сканерами, ноутбуками и серверами.",
+        "Administrare utilizatori": "Управление пользователями",
+        "Gestionarea drepturilor de acces, crearea conturilor noi.": "Управление правами доступа и создание новых учетных записей.",
+        "Helpdesk pentru angajați": "Helpdesk для сотрудников",
+        "Asistență rapidă, clară și prietenoasă pentru colegii dvs.": "Быстрая, понятная и дружелюбная поддержка для вашей команды.",
+        "Garanția funcționării stabile": "Гарантия стабильной работы",
+        "Control total": "Полный контроль",
+        "Monitorizare, inventariere și mentenanță planificată a echipamentelor dvs.": "Мониторинг, инвентаризация и плановое обслуживание вашего оборудования.",
+        "Rețele și": "Сети и",
+        "Internet stabil și protecție fiabilă — baza afacerii dvs. Construim rețele sigure și protejăm datele împotriva oricăror amenințări.": "Стабильный интернет и надежная защита — основа вашего бизнеса. Строим безопасные сети и защищаем данные от любых угроз.",
+        "Rețele locale (LAN/Wi‑Fi)": "Локальные сети (LAN/Wi‑Fi)",
+        "Proiectare, configurare și management ordonat al cablurilor.": "Проектирование, настройка и аккуратная кабельная организация.",
+        "Internet stabil": "Стабильный интернет",
+        "Configurarea echipamentelor pentru acces neîntrerupt la rețea.": "Настройка оборудования для бесперебойного доступа к сети.",
+        "Protecție împotriva amenințărilor cibernetice": "Защита от киберугроз",
+        "Protecție antivirus și monitorizarea atacurilor.": "Антивирусная защита и мониторинг атак.",
+        "Parteneri de încredere": "Надежные партнеры",
+        "Lucrăm cu soluțiile liderilor: Bitdefender și Acronis.": "Работаем с решениями лидеров: Bitdefender и Acronis.",
+        "Confidențialitate totală a datelor": "Полная конфиденциальность данных",
+        "Cyberprotecție": "Киберзащита",
+        "Monitorizare proactivă și prevenirea incidentelor de securitate 24/7.": "Проактивный мониторинг и предотвращение инцидентов безопасности 24/7.",
+        "și protecția datelor": "и защита данных",
+        "Datele dvs. sunt cel mai valoros activ al companiei. Le protejăm cu sisteme automate de backup, astfel încât niciun byte să nu fie pierdut.": "Ваши данные — самый ценный актив компании. Мы защищаем их автоматическим резервным копированием, чтобы не потерялся ни один байт.",
+        "Securitatea bazelor de date 1C": "Безопасность баз данных 1С",
+        "Copiere sigură a bazelor 1C și a documentelor, fără oprirea activității contabile.": "Надежное копирование баз 1С и документов без остановки бухгалтерских процессов.",
+        "Stocare cloud și externă": "Облачное и внешнее хранение",
+        "Păstrăm copii în afara biroului și în cloud pentru protecție la defecte fizice ale echipamentelor.": "Храним копии вне офиса и в облаке для защиты от физических поломок оборудования.",
+        "Copii izolate, inaccesibile ransomware-ului și hackerilor.": "Изолированные копии, недоступные ransomware и злоумышленникам.",
+        "Backup automat zilnic": "Ежедневный автоматический бэкап",
+        "100% Siguranță": "100% сохранность",
+        "Dormiți liniștit, știind că datele dvs. sunt protejate și pot fi restaurate oricând.": "Спите спокойно: ваши данные защищены и могут быть восстановлены в любой момент.",
+        "VALORILE NOASTRE": "НАШИ ЦЕННОСТИ",
+        "Abordarea noastră — 6 principii": "Наш подход — 6 принципов",
+        "Ne organizăm munca astfel încât infrastructura IT să nu fie doar un set de echipamente, ci o fundație solidă pentru dezvoltarea afacerii.": "Мы выстраиваем работу так, чтобы IT-инфраструктура была не просто набором техники, а прочной основой для развития бизнеса.",
+        "Redundanță": "Резервирование",
+        "Ne pregătim pentru orice scenariu. Linii de internet de rezervă, backup-uri automate și echipamente de substituție garantează continuitatea.": "Мы готовы к любому сценарию. Резервные интернет-линии, автоматические бэкапы и подменное оборудование гарантируют непрерывность.",
+        "Protejăm totul: de la calculatoare la servere și e-mail corporativ. Apărăm în mod fiabil datele sensibile împotriva amenințărilor externe și virusurilor.": "Мы защищаем всё: от компьютеров до серверов и корпоративной почты. Надежно охраняем чувствительные данные от внешних угроз и вирусов.",
+        "Viteză": "Скорость",
+        "Pornire rapidă a PC-urilor, internet stabil și reacție imediată a suportului. Vă prețuim timpul și eliminăm întârzierile.": "Быстрый запуск ПК, стабильный интернет и мгновенная реакция поддержки. Мы ценим ваше время и устраняем задержки.",
+        "Accesibilitate": "Доступность",
+        "Datele dvs. sunt mereu la îndemână. Asigurăm acces sigur la fișiere și 1C oricând, de oriunde și de pe orice dispozitiv.": "Ваши данные всегда под рукой. Обеспечиваем безопасный доступ к файлам и 1С в любое время, из любой точки и с любого устройства.",
+        "Suport 24/24": "Поддержка 24/24",
+        "Suntem mereu disponibili. Reacționăm rapid la orice — de la incidente critice noaptea până la întrebări simple ziua.": "Мы всегда на связи. Быстро реагируем на всё — от критических ночных инцидентов до простых дневных запросов.",
+        "Gândire orientată spre viitor": "Перспективное мышление",
+        "Nu doar reparăm, ci dezvoltăm. Prevenim problemele înainte să apară și propunem soluții care ajută afacerea să crească.": "Мы не только ремонтируем, но и развиваем. Предотвращаем проблемы до их появления и предлагаем решения для роста бизнеса.",
+        "Automatizare": "Автоматизация",
+        "& Monitorizare": "& Мониторинг",
+        "Eliminați factorul uman și timpii morți. Automatizăm procesele repetitive și monitorizăm sistemele non-stop, prevenind problemele înainte să apară.": "Исключите человеческий фактор и простои. Мы автоматизируем рутинные процессы и круглосуточно мониторим системы, предотвращая проблемы заранее.",
+        "Sincronizarea sistemelor": "Синхронизация систем",
+        "Unificăm CRM, 1C, e-mailul și serviciile cloud într-un singur ecosistem.": "Объединяем CRM, 1С, почту и облачные сервисы в единую экосистему.",
+        "Automatizarea datelor": "Автоматизация данных",
+        "Configurăm importul/exportul automat al datelor, eliminând erorile de introducere manuală.": "Настраиваем автоматический импорт/экспорт данных, исключая ошибки ручного ввода.",
+        "Monitorizare proactivă 24/7": "Проактивный мониторинг 24/7",
+        "Monitorizăm starea serverelor și rețelelor, reacționând instant la incidente.": "Отслеживаем состояние серверов и сетей, реагируя на инциденты мгновенно.",
+        "Eficiența afacerii crește": "Эффективность бизнеса растет",
+        "Mereu sub control": "Всегда под контролем",
+        "Sistemele funcționează sincronizat, ca un ceas, în timp ce dvs. vă ocupați de strategie.": "Системы работают слаженно, как часы, пока вы занимаетесь стратегией.",
+        "Ecosistem": "Экосистема",
+        "Tehnologii și parteneri": "Технологии и партнеры",
+        "Nu experimentăm pe clienți. Folosim doar soluții testate, licențiate și certificate de la lideri globali, pentru stabilitate garantată.": "Мы не экспериментируем на клиентах. Используем только проверенные, лицензионные и сертифицированные решения мировых лидеров для гарантированной стабильности.",
+        "Protecție antivirus complexă și EDR": "Комплексная антивирусная защита и EDR",
+        "Backup în cloud și recuperare în caz de dezastru": "Облачный бэкап и аварийное восстановление",
+        "Telefonie IP": "IP-телефония",
+        "3CX, Asterisk, integrare cu CRM": "3CX, Asterisk, интеграция с CRM",
+        "Administrare, actualizare și protecție baze de date": "Администрирование, обновление и защита баз данных",
+        "Virtualizare": "Виртуализация",
+        "Zabbix, Grafana, sisteme de alertare": "Zabbix, Grafana, системы оповещения",
+        "Ingineri certificați": "Сертифицированные инженеры",
+        "Tot software-ul este licențiat și respectă standardele de securitate": "Все программное обеспечение лицензировано и соответствует стандартам безопасности",
+        "Clienții noștri": "Наши клиенты",
+        "Ne acordă încredere": "Нам доверяют",
+        "Peste 17 companii cunoscute din Moldova ne-au ales drept partener IT de încredere pentru stabilitatea afacerii lor.": "Более 17 известных компаний Молдовы выбрали нас надежным IT-партнером для стабильности своего бизнеса.",
+        "Și mulți alții": "И многие другие",
+        "Compania dvs.?": "Ваша компания?",
+        "Deveniți client": "Стать клиентом",
+        "15 ani de experiență pe piața Moldovei": "15 лет опыта на рынке Молдовы",
+        "Parteneriate pe termen lung și susținerea creșterii afacerilor clienților": "Долгосрочные партнерства и поддержка роста бизнеса клиентов",
+        "Prețuri transparente": "Прозрачные цены",
+        "Abonamente pentru servicii IT": "Абонементы на IT-обслуживание",
+        "Oferim planuri tarifare flexibile, adaptate dimensiunii și nevoilor afacerii dvs. Plătiți doar pentru ce utilizați.": "Мы предлагаем гибкие тарифы, адаптированные под размер и потребности вашего бизнеса. Вы платите только за то, что используете.",
+        "Administrare PC": "Управление ПК",
+        "Abonament": "Абонемент",
+        "/ lună": "/ мес",
+        "preț per 1 calculator / lună": "цена за 1 компьютер в месяц",
+        "Suport remote nelimitat": "Неограниченная удаленная поддержка",
+        "Antivirus Bitdefender licențiat": "Лицензионный антивирус Bitdefender",
+        "Configurare software și actualizări": "Настройка ПО и обновлений",
+        "Rezolvarea problemelor imprimantelor": "Решение проблем с принтерами",
+        "Comandă serviciul": "Заказать обслуживание",
+        "Plan personalizat": "Индивидуальный план",
+        "Personalizat": "Персонально",
+        "pentru infrastructuri complexe": "для сложных инфраструктур",
+        "Administrare completă servere și rețele": "Полное обслуживание серверов и сетей",
+        "Administrare 1C și baze de date": "Администрирование 1С и баз данных",
+        "Backup în cloud": "Резервное копирование в облако",
+        "Vizite planificate ale inginerilor la birou": "Плановые выезды инженеров в офис",
+        "Manager IT dedicat": "Персональный IT-менеджер",
+        "Discută condițiile": "Обсудить условия",
+        "Calculator": "Калькулятор",
+        "Calculați singur": "Рассчитайте сами",
+        "online în 1 minut": "онлайн за 1 минуту",
+        "Vreți să aflați costul exact al mentenanței parcului dvs. IT? Folosiți calculatorul nostru inteligent de pe site.": "Хотите узнать точную стоимость обслуживания вашего IT-парка? Воспользуйтесь нашим умным калькулятором на сайте.",
+        "Indicați numărul de calculatoare": "Укажите количество компьютеров",
+        "Alegeți servere și opțiuni": "Выберите серверы и опции",
+        "Primiți calcul instant": "Получите мгновенный расчет",
+        "Mergi la calculator": "Перейти к калькулятору",
+        "Ofertă specială": "Специальное предложение",
+        "Audit IT": "IT-аудит",
+        "gratuit": "бесплатно",
+        "Vi se pare că infrastructura funcționează stabil? O verificăm profesionist. Identificăm vulnerabilități, riscuri ascunse și puncte de creștere.": "Вам кажется, что инфраструктура работает стабильно? Мы профессионально проверим это: выявим уязвимости, скрытые риски и точки роста.",
+        "Identificarea riscurilor ascunse": "Выявление скрытых рисков",
+        "Descoperim vulnerabilități de securitate și blocaje de performanță înainte de incidente.": "Обнаруживаем уязвимости безопасности и узкие места производительности до инцидентов.",
+        "Puncte de optimizare": "Точки оптимизации",
+        "Arătăm unde plătiți în plus și cum să faceți echipamentele să lucreze mai eficient.": "Показываем, где вы переплачиваете и как повысить эффективность оборудования.",
+        "Raport clar și plan de acțiune": "Понятный отчет и план действий",
+        "Primiți un document detaliat cu priorități și pași clari de implementare.": "Вы получаете детальный документ с приоритетами и четкими шагами внедрения.",
+        "Începe cu o consultație": "Начать с консультации",
+        "Gata să începeți?": "Готовы начать?",
+        "Soluții IT,": "IT-решения,",
+        "care lucrează": "которые работают",
+        "pentru afacerea dvs.": "на ваш бизнес",
+        "Uitați de problemele tehnice și concentrați-vă pe dezvoltarea companiei. Programați azi o consultație și un audit gratuit.": "Забудьте о технических проблемах и сосредоточьтесь на развитии компании. Запишитесь уже сегодня на консультацию и бесплатный аудит.",
+        "Contactați-ne": "Связаться с нами",
+        "Website": "Веб-сайт",
+        "Locație": "Локация",
+        "Chișinău, Moldova": "Кишинёв, Молдова",
+        "Ani de experiență": "Лет опыта",
+        "pe piața Moldovei": "на рынке Молдовы",
+        "Înapoi": "Назад",
+        "Înainte": "Вперёд"
+      };
+
+      const EN = {
+        "Comoda.md Presentation": "Comoda.md Presentation",
+        "Outsourcing IT profesionist": "Professional IT Outsourcing",
+        "SOLUȚII IT": "IT SOLUTIONS",
+        "PENTRU AFACEREA DVS.": "FOR YOUR BUSINESS",
+        "Oferim servicii IT, iar cel mai important —": "We deliver IT services and, most importantly —",
+        "liniște și stabilitate": "peace of mind and stability",
+        "15 ani de experiență": "15 years of experience",
+        "DESPRE NOI": "ABOUT US",
+        "Partenerul dvs.": "Your trusted",
+        "IT de încredere": "IT partner",
+        "Nu doar configurăm calculatoare. Construim un mediu în care afacerea dvs. poate crește fără obstacole tehnice.": "We do more than set up computers. We build an environment where your business can grow without technical barriers.",
+        "Ani de experiență pe piața din Moldova": "Years of experience in Moldova's market",
+        "Suport tehnic și monitorizare": "Technical support and monitoring",
+        "De ce ne aleg clienții?": "Why clients choose us",
+        "Construim relații pe termen lung bazate pe încredere și rezultate.": "We build long-term relationships based on trust and measurable results.",
+        "Parteneriat pe termen lung": "Long-term partnership",
+        "Nu suntem doar furnizori, ci parteneri reali ai clienților noștri, ajutându-i să se dezvolte ani la rând.": "We're not just vendors—we are true partners who help clients grow year after year.",
+        "Creștere prin tehnologie": "Growth through technology",
+        "Ajutăm zeci de companii să se extindă, implementând instrumentele IT potrivite și optimizând procesele.": "We help dozens of companies scale by implementing the right IT tools and streamlining processes.",
+        "Rezolvare rapidă a problemelor": "Fast problem resolution",
+        "De la imprimante nefuncționale până la configurarea serverelor — rezolvăm prompt orice problemă tehnică, pentru ca afacerea dvs. să nu se oprească.": "From broken printers to server configuration, we resolve issues quickly so your business never stops.",
+        "Misiunea noastră": "Our mission",
+        "Cât de bine ar fi să aveți": "How great would it be to have",
+        "o echipă IT dedicată": "a dedicated IT team",
+        "pentru afacerea dvs.?": "for your business?",
+        "Imaginați-vă un birou în care totul funcționează perfect. Configurăm rețele, protejăm datele și rezolvăm instant orice problemă — ca dvs. să vă concentrați pe business, nu pe cabluri.": "Imagine an office where everything runs perfectly. We configure networks, protect data, and resolve issues instantly—so you can focus on business, not cables.",
+        "Configurare rețele": "Network setup",
+        "Wi‑Fi stabil, rețele locale și acces securizat la internet pentru întregul birou.": "Stable Wi‑Fi, local networks, and secure internet access for the entire office.",
+        "Securitate": "Security",
+        "Backup automat al datelor și protecție 24/7 împotriva amenințărilor cibernetice.": "Automatic data backup and 24/7 protection against cyber threats.",
+        "Asistență rapidă": "Rapid support",
+        "Rezolvăm problemele imediat: de la setarea imprimantei până la administrarea serverelor.": "We solve issues immediately: from printer setup to server administration.",
+        "CE FACEM": "WHAT WE DO",
+        "Serviciile noastre": "Our services",
+        "Preluăm toate aspectele tehnice, astfel încât să vă puteți concentra pe dezvoltarea afacerii.": "We take care of every technical aspect so you can focus on growing your business.",
+        "Administrare IT": "IT administration",
+        "Întreținere completă pentru calculatoare și echipamente de birou. Rezolvăm problemele cu imprimantele, laptopurile și software-ul, pentru lucru fără întreruperi.": "Complete maintenance for computers and office equipment. We fix printer, laptop, and software issues for uninterrupted work.",
+        "Proiectare și instalare rețele locale (LAN/Wi‑Fi). Asigurăm internet stabil și cablare corectă în birou.": "Design and installation of local networks (LAN/Wi‑Fi). We ensure stable internet and proper office cabling.",
+        "Backup": "Backup",
+        "Backup automat pentru baze de date 1C și documente importante. Protecție sigură împotriva pierderii datelor la incidente sau atacuri.": "Automated backup for 1C databases and critical documents. Reliable protection against data loss during incidents or attacks.",
+        "Securitate cibernetică": "Cybersecurity",
+        "Implementare antivirus și firewall. Protecție împotriva ransomware-ului și atacurilor hackerilor. Parteneri Bitdefender.": "Antivirus and firewall deployment. Protection from ransomware and hacker attacks. Bitdefender partner.",
+        "Instalare software": "Software deployment",
+        "Licențiere, instalare și configurare software de birou, CRM, 1C și soluții specializate pentru nevoile dvs.": "Licensing, installation, and configuration of office software, CRM, 1C, and specialized solutions tailored to your needs.",
+        "Monitorizare 24/7": "24/7 monitoring",
+        "Monitorizare non-stop a serverelor și componentelor critice. Identificăm și rezolvăm problemele înainte să afecteze afacerea.": "Around-the-clock monitoring of servers and critical components. We detect and resolve issues before they impact your business.",
+        "SERVICIILE NOASTRE": "OUR SERVICES",
+        "biroului dvs.": "for your office",
+        "Uitați de blocajele tehnice. Ne asumăm responsabilitatea completă pentru funcționarea infrastructurii IT, astfel încât dvs. să vă concentrați pe dezvoltarea afacerii.": "Forget technical bottlenecks. We take full responsibility for your IT infrastructure so you can focus on business growth.",
+        "Suport echipamente": "Equipment support",
+        "Rezolvarea problemelor cu imprimante, scanere, laptopuri și servere.": "Troubleshooting for printers, scanners, laptops, and servers.",
+        "Administrare utilizatori": "User administration",
+        "Gestionarea drepturilor de acces, crearea conturilor noi.": "Access rights management and new account setup.",
+        "Helpdesk pentru angajați": "Helpdesk for staff",
+        "Asistență rapidă, clară și prietenoasă pentru colegii dvs.": "Fast, clear, and friendly assistance for your team.",
+        "Garanția funcționării stabile": "Stable operations guarantee",
+        "Control total": "Full control",
+        "Monitorizare, inventariere și mentenanță planificată a echipamentelor dvs.": "Monitoring, inventory tracking, and scheduled maintenance for your equipment.",
+        "Rețele și": "Networks and",
+        "Internet stabil și protecție fiabilă — baza afacerii dvs. Construim rețele sigure și protejăm datele împotriva oricăror amenințări.": "Stable internet and reliable protection are the foundation of your business. We build secure networks and protect data from any threat.",
+        "Rețele locale (LAN/Wi‑Fi)": "Local networks (LAN/Wi‑Fi)",
+        "Proiectare, configurare și management ordonat al cablurilor.": "Design, configuration, and orderly cable management.",
+        "Internet stabil": "Stable internet",
+        "Configurarea echipamentelor pentru acces neîntrerupt la rețea.": "Equipment setup for uninterrupted network access.",
+        "Protecție împotriva amenințărilor cibernetice": "Protection against cyber threats",
+        "Protecție antivirus și monitorizarea atacurilor.": "Antivirus protection and attack monitoring.",
+        "Parteneri de încredere": "Trusted partners",
+        "Lucrăm cu soluțiile liderilor: Bitdefender și Acronis.": "We work with solutions from market leaders: Bitdefender and Acronis.",
+        "Confidențialitate totală a datelor": "Total data confidentiality",
+        "Cyberprotecție": "Cyber protection",
+        "Monitorizare proactivă și prevenirea incidentelor de securitate 24/7.": "Proactive monitoring and 24/7 security incident prevention.",
+        "și protecția datelor": "and data protection",
+        "Datele dvs. sunt cel mai valoros activ al companiei. Le protejăm cu sisteme automate de backup, astfel încât niciun byte să nu fie pierdut.": "Your data is your company's most valuable asset. We protect it with automated backup systems so not a single byte is lost.",
+        "Securitatea bazelor de date 1C": "1C database security",
+        "Copiere sigură a bazelor 1C și a documentelor, fără oprirea activității contabile.": "Secure copying of 1C databases and documents without interrupting accounting operations.",
+        "Stocare cloud și externă": "Cloud and offsite storage",
+        "Păstrăm copii în afara biroului și în cloud pentru protecție la defecte fizice ale echipamentelor.": "We keep copies offsite and in the cloud to protect against physical equipment failures.",
+        "Copii izolate, inaccesibile ransomware-ului și hackerilor.": "Isolated copies inaccessible to ransomware and hackers.",
+        "Backup automat zilnic": "Daily automated backup",
+        "100% Siguranță": "100% safety",
+        "Dormiți liniștit, știind că datele dvs. sunt protejate și pot fi restaurate oricând.": "Sleep peacefully knowing your data is protected and can be restored anytime.",
+        "VALORILE NOASTRE": "OUR VALUES",
+        "Abordarea noastră — 6 principii": "Our approach — 6 principles",
+        "Ne organizăm munca astfel încât infrastructura IT să nu fie doar un set de echipamente, ci o fundație solidă pentru dezvoltarea afacerii.": "We structure our work so your IT infrastructure is not just equipment, but a solid foundation for business growth.",
+        "Redundanță": "Redundancy",
+        "Ne pregătim pentru orice scenariu. Linii de internet de rezervă, backup-uri automate și echipamente de substituție garantează continuitatea.": "We prepare for every scenario. Backup internet lines, automated backups, and replacement equipment ensure continuity.",
+        "Protejăm totul: de la calculatoare la servere și e-mail corporativ. Apărăm în mod fiabil datele sensibile împotriva amenințărilor externe și virusurilor.": "We protect everything—from PCs and servers to corporate email. Sensitive data stays secure from external threats and malware.",
+        "Viteză": "Speed",
+        "Pornire rapidă a PC-urilor, internet stabil și reacție imediată a suportului. Vă prețuim timpul și eliminăm întârzierile.": "Fast PC startup, stable internet, and immediate support response. We value your time and eliminate delays.",
+        "Accesibilitate": "Accessibility",
+        "Datele dvs. sunt mereu la îndemână. Asigurăm acces sigur la fișiere și 1C oricând, de oriunde și de pe orice dispozitiv.": "Your data is always within reach. We provide secure access to files and 1C anytime, anywhere, on any device.",
+        "Suport 24/24": "24/24 support",
+        "Suntem mereu disponibili. Reacționăm rapid la orice — de la incidente critice noaptea până la întrebări simple ziua.": "We're always available. We respond quickly to everything—from critical night incidents to simple daytime questions.",
+        "Gândire orientată spre viitor": "Forward-looking mindset",
+        "Nu doar reparăm, ci dezvoltăm. Prevenim problemele înainte să apară și propunem soluții care ajută afacerea să crească.": "We don't just fix—we improve. We prevent issues before they arise and propose solutions that help your business grow.",
+        "Automatizare": "Automation",
+        "& Monitorizare": "& Monitoring",
+        "Eliminați factorul uman și timpii morți. Automatizăm procesele repetitive și monitorizăm sistemele non-stop, prevenind problemele înainte să apară.": "Eliminate human error and downtime. We automate repetitive workflows and monitor systems non-stop, preventing issues before they happen.",
+        "Sincronizarea sistemelor": "Systems synchronization",
+        "Unificăm CRM, 1C, e-mailul și serviciile cloud într-un singur ecosistem.": "We unify CRM, 1C, email, and cloud services into one ecosystem.",
+        "Automatizarea datelor": "Data automation",
+        "Configurăm importul/exportul automat al datelor, eliminând erorile de introducere manuală.": "We configure automated data import/export, eliminating manual-entry errors.",
+        "Monitorizare proactivă 24/7": "Proactive 24/7 monitoring",
+        "Monitorizăm starea serverelor și rețelelor, reacționând instant la incidente.": "We monitor server and network health and react to incidents instantly.",
+        "Eficiența afacerii crește": "Business efficiency increases",
+        "Mereu sub control": "Always under control",
+        "Sistemele funcționează sincronizat, ca un ceas, în timp ce dvs. vă ocupați de strategie.": "Systems run in sync like clockwork while you focus on strategy.",
+        "Ecosistem": "Ecosystem",
+        "Tehnologii și parteneri": "Technologies and partners",
+        "Nu experimentăm pe clienți. Folosim doar soluții testate, licențiate și certificate de la lideri globali, pentru stabilitate garantată.": "We never experiment on clients. We use only proven, licensed, and certified solutions from global leaders for guaranteed stability.",
+        "Protecție antivirus complexă și EDR": "Comprehensive antivirus protection and EDR",
+        "Backup în cloud și recuperare în caz de dezastru": "Cloud backup and disaster recovery",
+        "Telefonie IP": "IP telephony",
+        "3CX, Asterisk, integrare cu CRM": "3CX, Asterisk, CRM integration",
+        "Administrare, actualizare și protecție baze de date": "Database administration, updates, and protection",
+        "Virtualizare": "Virtualization",
+        "Zabbix, Grafana, sisteme de alertare": "Zabbix, Grafana, alerting systems",
+        "Ingineri certificați": "Certified engineers",
+        "Tot software-ul este licențiat și respectă standardele de securitate": "All software is licensed and compliant with security standards",
+        "Clienții noștri": "Our clients",
+        "Ne acordă încredere": "They trust us",
+        "Peste 17 companii cunoscute din Moldova ne-au ales drept partener IT de încredere pentru stabilitatea afacerii lor.": "Over 17 well-known companies in Moldova chose us as a trusted IT partner for business stability.",
+        "Și mulți alții": "And many others",
+        "Compania dvs.?": "Your company?",
+        "Deveniți client": "Become a client",
+        "15 ani de experiență pe piața Moldovei": "15 years of experience in Moldova's market",
+        "Parteneriate pe termen lung și susținerea creșterii afacerilor clienților": "Long-term partnerships and support for clients' business growth",
+        "Prețuri transparente": "Transparent pricing",
+        "Abonamente pentru servicii IT": "IT service subscriptions",
+        "Oferim planuri tarifare flexibile, adaptate dimensiunii și nevoilor afacerii dvs. Plătiți doar pentru ce utilizați.": "We offer flexible pricing plans tailored to your business size and needs. Pay only for what you use.",
+        "Administrare PC": "PC management",
+        "Abonament": "Subscription",
+        "/ lună": "/ month",
+        "preț per 1 calculator / lună": "price per 1 computer / month",
+        "Suport remote nelimitat": "Unlimited remote support",
+        "Antivirus Bitdefender licențiat": "Licensed Bitdefender antivirus",
+        "Configurare software și actualizări": "Software setup and updates",
+        "Rezolvarea problemelor imprimantelor": "Printer issue resolution",
+        "Comandă serviciul": "Order service",
+        "Plan personalizat": "Custom plan",
+        "Personalizat": "Custom",
+        "pentru infrastructuri complexe": "for complex infrastructures",
+        "Administrare completă servere și rețele": "Full server and network administration",
+        "Administrare 1C și baze de date": "1C and database administration",
+        "Backup în cloud": "Cloud backup",
+        "Vizite planificate ale inginerilor la birou": "Scheduled engineer visits to your office",
+        "Manager IT dedicat": "Dedicated IT manager",
+        "Discută condițiile": "Discuss terms",
+        "Calculator": "Calculator",
+        "Calculați singur": "Calculate it yourself",
+        "online în 1 minut": "online in 1 minute",
+        "Vreți să aflați costul exact al mentenanței parcului dvs. IT? Folosiți calculatorul nostru inteligent de pe site.": "Want the exact maintenance cost for your IT fleet? Use our smart online calculator.",
+        "Indicați numărul de calculatoare": "Specify the number of computers",
+        "Alegeți servere și opțiuni": "Choose servers and options",
+        "Primiți calcul instant": "Get an instant estimate",
+        "Mergi la calculator": "Go to calculator",
+        "Ofertă specială": "Special offer",
+        "Audit IT": "IT audit",
+        "gratuit": "free",
+        "Vi se pare că infrastructura funcționează stabil? O verificăm profesionist. Identificăm vulnerabilități, riscuri ascunse și puncte de creștere.": "Think your infrastructure is stable? We'll assess it professionally, identify vulnerabilities, hidden risks, and growth opportunities.",
+        "Identificarea riscurilor ascunse": "Hidden risk detection",
+        "Descoperim vulnerabilități de securitate și blocaje de performanță înainte de incidente.": "We identify security vulnerabilities and performance bottlenecks before incidents occur.",
+        "Puncte de optimizare": "Optimization points",
+        "Arătăm unde plătiți în plus și cum să faceți echipamentele să lucreze mai eficient.": "We show where you're overspending and how to make your infrastructure more efficient.",
+        "Raport clar și plan de acțiune": "Clear report and action plan",
+        "Primiți un document detaliat cu priorități și pași clari de implementare.": "You receive a detailed document with priorities and clear implementation steps.",
+        "Începe cu o consultație": "Start with a consultation",
+        "Gata să începeți?": "Ready to get started?",
+        "Soluții IT,": "IT solutions,",
+        "care lucrează": "that work",
+        "pentru afacerea dvs.": "for your business",
+        "Uitați de problemele tehnice și concentrați-vă pe dezvoltarea companiei. Programați azi o consultație și un audit gratuit.": "Forget technical issues and focus on growing your company. Book a consultation and free audit today.",
+        "Contactați-ne": "Contact us",
+        "Website": "Website",
+        "Locație": "Location",
+        "Chișinău, Moldova": "Chișinău, Moldova",
+        "Ani de experiență": "Years of experience",
+        "pe piața Moldovei": "in Moldova's market",
+        "Înapoi": "Back",
+        "Înainte": "Next"
+      };
+
+      const maps = { ro: {}, ru: RU, en: EN };
+      const textNodes = [];
+
+      function collect(node) {
+        if (!node) return;
+        const skip = ['SCRIPT', 'STYLE'];
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
+          acceptNode(n) {
+            if (!n.parentElement || skip.includes(n.parentElement.tagName)) return NodeFilter.FILTER_REJECT;
+            if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        let current;
+        while ((current = walker.nextNode())) {
+          const raw = current.nodeValue;
+          const trimmed = raw.trim();
+          textNodes.push({ node: current, raw, trimmed });
+        }
+      }
+
+      function applyLanguage(lang) {
+        const dict = maps[lang] || {};
+        textNodes.forEach((item) => {
+          const translated = dict[item.trimmed] || item.trimmed;
+          item.node.nodeValue = item.raw.replace(item.trimmed, translated);
+        });
+
+        const pageTitle = document.querySelector('title');
+        if (pageTitle) {
+          pageTitle.textContent = dict['Comoda.md Presentation'] || 'Comoda.md Presentation';
+        }
+
+        document.querySelectorAll('.lang-btn').forEach((button) => {
+          button.classList.toggle('active', button.dataset.lang === lang);
+        });
+      }
+
+      collect(document.querySelector('.presentation'));
+      document.querySelectorAll('.lang-btn').forEach((btn) => {
+        btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+      });
+
+      applyLanguage('ro');
+    })();
+  </script>
+
+</body>
+</html>
