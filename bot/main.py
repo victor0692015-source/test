@@ -10,17 +10,9 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROMPT_PATH = BASE_DIR / "prompts" / "system_prompt_ru.md"
 KB_PATH = BASE_DIR / "knowledge_base" / "comoda_profile_ru.md"
+ENV_PATH = BASE_DIR / ".env"
 
-load_dotenv()
-
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-
-if not TELEGRAM_BOT_TOKEN:
-    raise RuntimeError("TELEGRAM_BOT_TOKEN is required")
-if not OPENAI_API_KEY:
-    raise RuntimeError("OPENAI_API_KEY is required")
+load_dotenv(dotenv_path=ENV_PATH)
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -35,10 +27,21 @@ def load_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def get_required_env(name: str) -> str:
+    value = os.getenv(name)
+    if value:
+        return value
+
+    raise RuntimeError(
+        f"{name} is required. "
+        f"Создайте файл {ENV_PATH} (можно скопировать из .env.example) "
+        f"и добавьте {name}=..."
+    )
+
+
 SYSTEM_PROMPT = load_text(PROMPT_PATH)
 KNOWLEDGE_BASE = load_text(KB_PATH)
-
-client = OpenAI(api_key=OPENAI_API_KEY)
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -48,7 +51,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
-async def ask_llm(user_message: str) -> str:
+async def ask_llm(user_message: str, client: OpenAI) -> str:
     response = client.responses.create(
         model=OPENAI_MODEL,
         input=[
@@ -69,8 +72,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         return
 
     user_text = update.message.text.strip()
+    client: OpenAI = context.bot_data["openai_client"]
+
     try:
-        answer = await ask_llm(user_text)
+        answer = await ask_llm(user_text, client)
     except Exception:
         logger.exception("LLM request failed")
         answer = (
@@ -89,7 +94,11 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 def main() -> None:
-    application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    telegram_token = get_required_env("TELEGRAM_BOT_TOKEN")
+    openai_api_key = get_required_env("OPENAI_API_KEY")
+
+    application = Application.builder().token(telegram_token).build()
+    application.bot_data["openai_client"] = OpenAI(api_key=openai_api_key)
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
