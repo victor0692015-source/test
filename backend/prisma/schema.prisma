@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  AGENT
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  OVERDUE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Channel {
+  TELEGRAM
+  WHATSAPP
+  VIBER
+  CRM
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  fullName     String
+  role         Role        @default(AGENT)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  tasks        Task[]
+  notifications Notification[]
+  auditLogs    AuditLog[]
+}
+
+model Client {
+  id                String      @id @default(uuid())
+  name              String
+  phoneEncrypted    String?
+  emailEncrypted    String?
+  company           String?
+  tags              String[]
+  notes             String?
+  telegramHandle    String?
+  whatsappNumber    String?
+  viberId           String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  tasks             Task[]
+  messages          Message[]
+  timelineEvents    TimelineEvent[]
+}
+
+model Task {
+  id            String      @id @default(uuid())
+  clientId      String
+  title         String
+  description   String?
+  status        TaskStatus  @default(TODO)
+  priority      Priority    @default(MEDIUM)
+  deadline      DateTime?
+  assignedUserId String?
+  parentTaskId  String?
+  reminderAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  client        Client      @relation(fields: [clientId], references: [id])
+  assignedUser  User?       @relation(fields: [assignedUserId], references: [id])
+  subtasks      Task[]      @relation("Subtasks")
+  parentTask    Task?       @relation("Subtasks", fields: [parentTaskId], references: [id])
+}
+
+model Message {
+  id             String      @id @default(uuid())
+  clientId       String
+  channel        Channel
+  externalId     String?
+  direction      String
+  content        String
+  metadata       Json?
+  createdAt      DateTime    @default(now())
+  client         Client      @relation(fields: [clientId], references: [id])
+}
+
+model Integration {
+  id             String      @id @default(uuid())
+  channel        Channel
+  config         Json
+  isActive       Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Notification {
+  id            String      @id @default(uuid())
+  userId        String
+  type          String
+  title         String
+  body          String
+  payload       Json?
+  isRead        Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id            String      @id @default(uuid())
+  userId        String?
+  action        String
+  entity        String
+  entityId      String?
+  changes       Json?
+  createdAt     DateTime    @default(now())
+  user          User?       @relation(fields: [userId], references: [id])
+}
+
+model TimelineEvent {
+  id            String      @id @default(uuid())
+  clientId      String
+  type          String
+  refId         String?
+  summary       String
+  createdAt     DateTime    @default(now())
+  client        Client      @relation(fields: [clientId], references: [id])
+}
