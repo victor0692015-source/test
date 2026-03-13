@@ -51,3 +51,36 @@ See `docs/integrations.md` for Telegram/WhatsApp/Viber webhook payload handling 
 
 ## 7) Deployment guide
 See `docs/deployment.md` and `infra/docker/docker-compose.yml`.
+
+
+## Quick Start
+
+### Docker
+Run from repository root:
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+docker compose -f infra/docker/docker-compose.yml up -d --build
+```
+
+### Local (without Docker)
+
+```bash
+cd backend
+cp .env.local.example .env
+npm install
+npm run prisma:generate
+npm run prisma:migrate
+npm run start:dev
+```
+
+In another terminal:
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
