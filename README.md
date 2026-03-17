@@ -82,3 +82,7 @@ npm run dev
 - `activities`
 
 `admin` пользователь сидируется автоматически при инициализации БД.
+
+
+## Product documentation
+- Подробная продуктовая документация и roadmap: `docs/CRM_SYSTEM_DOCUMENTATION.md`.
