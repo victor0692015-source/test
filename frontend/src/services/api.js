@@ -1,4 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
+
+function buildErrorMessage(errorBody, fallback) {
+  if (typeof errorBody === 'string' && errorBody.trim()) return errorBody;
+  if (errorBody?.message) return errorBody.message;
+  return fallback;
+}
 
 export async function request(path, options = {}) {
   const token = localStorage.getItem('token');
@@ -8,15 +14,28 @@ export async function request(path, options = {}) {
     ...(options.headers || {})
   };
 
-  const response = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || 'Request failed');
+  let response;
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      ...options,
+      headers
+    });
+  } catch (networkError) {
+    throw new Error('Backend недоступен. Проверьте, что API запущен на порту 4000.');
   }
 
+  if (!response.ok) {
+    const text = await response.text();
+    let parsed;
+    try {
+      parsed = text ? JSON.parse(text) : null;
+    } catch {
+      parsed = text;
+    }
+
+    throw new Error(buildErrorMessage(parsed, `HTTP ${response.status}`));
+  }
+
+  if (response.status === 204) return null;
   return response.json();
 }
