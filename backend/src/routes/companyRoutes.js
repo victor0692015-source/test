@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { pool } from '../config/db.js';
 import { authRequired } from '../middleware/auth.js';
 import { logActivity } from '../services/activityService.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const router = Router();
 router.use(authRequired);
 
-router.get('/', async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
   const { search = '', status } = req.query;
   const params = [];
   const filters = [];
@@ -32,9 +33,9 @@ router.get('/', async (req, res) => {
 
   const result = await pool.query(query, params);
   return res.json(result.rows);
-});
+}));
 
-router.post('/', async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
   const { name, contactPerson, email, phone, dealStatus = 'new' } = req.body;
 
   const result = await pool.query(
@@ -52,9 +53,9 @@ router.post('/', async (req, res) => {
   });
 
   return res.status(201).json(result.rows[0]);
-});
+}));
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', asyncHandler(async (req, res) => {
   const companyId = req.params.id;
 
   const [company, contacts, notes, tasks, activities] = await Promise.all([
@@ -83,9 +84,9 @@ router.get('/:id', async (req, res) => {
     tasks: tasks.rows,
     activities: activities.rows
   });
-});
+}));
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', asyncHandler(async (req, res) => {
   const companyId = req.params.id;
   const { name, contactPerson, email, phone, dealStatus } = req.body;
 
@@ -114,9 +115,9 @@ router.put('/:id', async (req, res) => {
   });
 
   return res.json(result.rows[0]);
-});
+}));
 
-router.patch('/:id/status', async (req, res) => {
+router.patch('/:id/status', asyncHandler(async (req, res) => {
   const { status } = req.body;
   const result = await pool.query(
     `UPDATE companies
@@ -139,9 +140,9 @@ router.patch('/:id/status', async (req, res) => {
   });
 
   return res.json(result.rows[0]);
-});
+}));
 
-router.post('/:id/notes', async (req, res) => {
+router.post('/:id/notes', asyncHandler(async (req, res) => {
   const { content } = req.body;
   const result = await pool.query(
     `INSERT INTO notes (company_id, user_id, content)
@@ -158,9 +159,9 @@ router.post('/:id/notes', async (req, res) => {
   });
 
   return res.status(201).json(result.rows[0]);
-});
+}));
 
-router.post('/:id/tasks', async (req, res) => {
+router.post('/:id/tasks', asyncHandler(async (req, res) => {
   const { title, description, dueDate } = req.body;
   const result = await pool.query(
     `INSERT INTO tasks (company_id, created_by, title, description, due_date)
@@ -177,6 +178,6 @@ router.post('/:id/tasks', async (req, res) => {
   });
 
   return res.status(201).json(result.rows[0]);
-});
+}));
 
 export default router;

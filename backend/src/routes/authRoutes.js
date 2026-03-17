@@ -2,6 +2,7 @@ import { Router } from 'express';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const router = Router();
 
@@ -14,7 +15,7 @@ function verifyPassword(password, passwordHash) {
   return false;
 }
 
-router.post('/login', async (req, res) => {
+router.post('/login', asyncHandler(async (req, res) => {
   const { login, password } = req.body;
   if (!login || !password) {
     return res.status(400).json({ message: 'Login and password are required' });
@@ -34,6 +35,6 @@ router.post('/login', async (req, res) => {
   );
 
   return res.json({ token, user: { id: user.id, login: user.login, role: user.role } });
-});
+}));
 
 export default router;
